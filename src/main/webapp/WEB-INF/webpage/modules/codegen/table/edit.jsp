@@ -115,7 +115,18 @@
     <script src="${staticPath}/modules/codegen/js/table.data.js"></script>
     <script src="${staticPath}/modules/codegen/js/table.edit.js"></script>
     <script language="javascript" type="text/javascript"> 
-	   $(document).ready(function(){
+	    function resizeGrid(){
+		    $("#attributeInfoTable").setGridWidth($(window).width()*0.99-28);
+	        $("#pageInfoTable").setGridWidth($(window).width()*0.99-28);
+	        $("#validInfoTable").setGridWidth($(window).width()*0.99-28);
+		}
+		$(document).ready(function(){
+		   $(window).resize(function(){   
+			   resizeGrid();
+		    });
+		   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			   resizeGrid();
+		   });
 		   var oldTableTypeValue=$('#tableType').val();
 		   $('#tableType').change(function(){ 
 			  var tableTypeValue=$(this).val();
@@ -189,9 +200,9 @@
 	   }
 	</script> 
 	<script type="text/javascript"> 
-		$.jgrid.defaults.width = 1050;
-		$.jgrid.defaults.responsive = true;
-		$.jgrid.defaults.styleUI = 'Bootstrap';
+	   $.jgrid.defaults.width = $(window).width()*0.99-32;
+	   $.jgrid.defaults.responsive = true;
+	   $.jgrid.defaults.styleUI = 'Bootstrap';
     
 	    function initTable(data)
 	    {
