@@ -60,7 +60,6 @@
 	    <property name="configLocation" value="classpath:mybatis-config.xml"/>
 	    <!-- 配置包别名 -->
 	    <property name="typeAliasesPackage" value="cn.jeeweb.modules.*.entity"/>
-        <!-- <property name="typeAliasesSuperType" value="com.thinkgem.jeesite.common.persistence.BaseEntity"/>-->
 	    <!-- 以上配置和传统 Mybatis 一致 -->
 	
 	    <!-- 插件配置 -->
@@ -104,7 +103,7 @@
 	        SQLSERVER2005->`sqlserver2005`
 	        SQLSERVER->`sqlserver`
 	    -->
-	    <property name="dbType" value="mysql"/>
+	    <property name="dbType" value="${connection.dbType}"/>
 	    
 	    <!-- 全局表为下划线命名设置 true -->
 	    <property name="dbColumnUnderline" value="true"/>
