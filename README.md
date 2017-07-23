@@ -58,7 +58,7 @@ JeeWeb 功能特点
 * 服务端验证：Hibernate Validator
 * 布局框架：SiteMesh
 * 任务调度：Quartz
-* 持久层框架：Hibernate 
+* 持久层框架：Mybatis
 * 数据库连接池：Alibaba Druid
 * 缓存框架：Ehcache
 * 并发框架：Disruptor
@@ -85,13 +85,6 @@ JeeWeb 功能特点
 * 修改数据库配置文件dbconfig.properties中的账号密码.
 * 启动项目,管理员账号admin/密码123456
 
-技术文档
------------------------------------
-* [JeeWeb 开发环境搭建入门(完善中...)]
-* [JeeWeb 开发手册(完善中...)]
-* [JeeWeb  常见问题贴(完善中...)]
-* [JeeWeb 视频教程(完善中...)]
-* [JeeWeb 官方百度网盘](http://pan.baidu.com/s/1hrFKF2k)
 
 平台目录结构说明
 -----------------------------------
