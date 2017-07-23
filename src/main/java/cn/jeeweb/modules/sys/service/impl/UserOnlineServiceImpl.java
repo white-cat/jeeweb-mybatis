@@ -3,6 +3,10 @@ package cn.jeeweb.modules.sys.service.impl;
 import org.springframework.stereotype.Service;
 import cn.jeeweb.core.common.service.impl.CommonServiceImpl;
 import cn.jeeweb.core.query.data.Page;
+import cn.jeeweb.core.query.data.PageImpl;
+import cn.jeeweb.core.query.data.PageRequest;
+import cn.jeeweb.core.query.data.Pageable;
+import cn.jeeweb.core.query.wrapper.EntityWrapper;
 import cn.jeeweb.core.utils.IpUtils;
 import cn.jeeweb.core.utils.ServletUtils;
 import cn.jeeweb.core.utils.StringUtils;
@@ -67,15 +71,15 @@ public class UserOnlineServiceImpl extends CommonServiceImpl<UserOnlineMapper, U
 	 * @return
 	 */
 	public Page<UserOnline> findExpiredUserOnlineList(Date expiredDate, int page, int rows) {
-		/*
-		 * String hql =
-		 * "from UserOnline o where o.lastAccessTime < ? order by o.lastAccessTime asc"
-		 * ; Long total = countByHql("select count(*)  " + hql, expiredDate);
-		 * Pageable pageable = new PageRequest(page, rows); List<UserOnline>
-		 * content = listByHql(hql, expiredDate); return new
-		 * PageImpl<UserOnline>(content, pageable, total);
-		 */
-		return null;
+		com.baomidou.mybatisplus.plugins.Page<UserOnline> userOnlinePage = new com.baomidou.mybatisplus.plugins.Page<UserOnline>(
+				page, rows);
+		EntityWrapper<UserOnline> wrapper = new EntityWrapper<UserOnline>(UserOnline.class);
+		wrapper.lt("lastAccessTime", expiredDate);
+		wrapper.orderBy("lastAccessTime");
+		List<UserOnline> content = baseMapper.selectUserOnlinePage(userOnlinePage, wrapper);
+		Integer total = baseMapper.selectCount(wrapper);
+		Pageable pageable = new PageRequest(page, rows);
+		return new PageImpl<UserOnline>(content, pageable, total);
 	}
 
 }
