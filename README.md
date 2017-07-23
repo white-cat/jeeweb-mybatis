@@ -58,7 +58,7 @@ JeeWeb 功能特点
 * 服务端验证：Hibernate Validator
 * 布局框架：SiteMesh
 * 任务调度：Quartz
-* 持久层框架：Hibernate 
+* 持久层框架：Mybatis
 * 数据库连接池：Alibaba Druid
 * 缓存框架：Ehcache
 * 并发框架：Disruptor
