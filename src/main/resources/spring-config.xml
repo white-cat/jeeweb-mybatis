@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- 引入属性文件 -->
+	<context:property-placeholder  ignore-unresolvable="true"
+		location="classpath:dbconfig.properties,classpath:jeeweb.properties,classpath:shiro.properties" />
+   
+   	<!-- 自动扫描dao和service包(自动注入) -->
+	<context:component-scan base-package="cn.jeeweb.core.common.dao.*" />
+	<context:component-scan base-package="cn.jeeweb.core.common.service.*" />
+	<context:component-scan base-package="cn.jeeweb.modules.codegen.dao.*" />
+	<context:component-scan base-package="cn.jeeweb.modules.common.jcaptcha.*" />
+
+	<!-- 扫描注解Bean -->
+	<context:component-scan base-package="cn.jeeweb.modules.**.service" />
+	
+	<context:component-scan base-package="cn.jeeweb.core.interceptor">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<import resource="spring-config-mybatis.xml" />
+	<import resource="spring-config-cache.xml" />
+	<import resource="spring-config-shiro.xml" />
+	<import resource="spring-config-extend.xml" />
+
+</beans>

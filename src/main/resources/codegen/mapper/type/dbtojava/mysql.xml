@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- 名称 -->
+	<name>类型参数配置</name>
+	<!-- 描述 -->
+	<description>类型参数配置</description>
+	<types>
+		<type>
+			<!-- JAVA类型 -->
+			<java-type>String</java-type>
+			<!-- 数据库中的类型 -->
+			<db-type>VARCHAR</db-type>
+		</type>
+		<type>
+			<java-type>Long</java-type>
+			<db-type>BIGINT</db-type>
+		</type>
+		<type>
+			<java-type>Date</java-type>
+			<full-type>java.util.Date</full-type>
+			<db-type>DATETIME</db-type>
+		</type>
+		<type>
+			<java-type>Integer</java-type>
+			<db-type>INT</db-type>
+		</type>
+		<type>
+			<java-type>Integer</java-type>
+			<db-type>INT UNSIGNED</db-type>
+		</type>
+		<type>
+			<java-type>Long</java-type>
+			<db-type>BIGINT UNSIGNED</db-type>
+		</type>
+		<type>
+			<java-type>Long</java-type>
+			<db-type>TINYINT UNSIGNED</db-type>
+		</type>
+		<type>
+			<java-type>Double</java-type>
+			<db-type>DECIMAL</db-type>
+		</type>
+		<type>
+			<java-type>String</java-type>
+			<db-type>TEXT</db-type>
+		</type>
+		<type>
+			<java-type>Date</java-type>
+			<full-type>java.util.Date</full-type>
+			<db-type>TIMESTAMP</db-type>
+		</type>
+		<type>
+			<java-type>Short</java-type>
+			<db-type>TINYINT</db-type>
+		</type>
+		<type>
+			<java-type>Double</java-type>
+			<db-type>DECIMAL UNSIGNED</db-type>
+		</type>
+		<type>
+			<java-type>Short</java-type>
+			<db-type>SMALLINT</db-type>
+		</type>
+		<type>
+			<java-type>Short</java-type>
+			<db-type>BIT</db-type>
+		</type>
+		<type>
+			<java-type>String</java-type>
+			<db-type>CHAR</db-type>
+		</type>
+	</types>
+</config>

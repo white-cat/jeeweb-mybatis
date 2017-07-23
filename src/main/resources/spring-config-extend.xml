@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+          
+	<!-- 短信发送 -->
+	<bean id="smsDao" class="cn.jeeweb.modules.sms.dao.SmsDaoIml" />
+	<bean id="smsSender" class="cn.jeeweb.core.utils.sms.sender.HuyiSmsSender" />
+	<bean id="smsHelper" class="cn.jeeweb.core.disruptor.sms.SmsHelper">
+	    <!-- 发送短信处理进程数 -->
+		<property name="handlerCount" value="2" />
+		<!-- 发送短信并发缓冲大小 -->
+		<property name="bufferSize" value="1024" />
+		<!-- 短信发送器 -->
+		<property name="smsSender" ref="smsSender" />
+		<!--响应的DAO -->
+		<property name="smsDao" ref="smsDao" />
+	</bean>
+	
+	<!-- 邮件发送 -->
+	<bean id="emailDao" class="cn.jeeweb.modules.email.dao.EmailDaoIml" />
+	<bean id="emailHelper" class="cn.jeeweb.core.disruptor.email.EmailHelper">
+	    <!-- 发送邮件处理进程数 -->
+		<property name="handlerCount" value="2" />
+		<!-- 发送邮件并发缓冲大小 -->
+		<property name="bufferSize" value="1024" />
+		<!--响应的DAO -->
+		<property name="emailDao" ref="emailDao" />
+	</bean>
+</beans>

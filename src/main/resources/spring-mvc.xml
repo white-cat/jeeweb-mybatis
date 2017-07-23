@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+      http://www.springframework.org/schema/context  
+      http://www.springframework.org/schema/context/spring-context.xsd  
+      http://www.springframework.org/schema/aop 
+	  http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+      http://www.springframework.org/schema/mvc  
+      http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	<!-- 加载配置属性文件 -->
+	<context:property-placeholder
+		ignore-unresolvable="true"
+		location="classpath:jeeweb.properties,classpath:upload.properties" />
+	<!-- 注解扫描的包 -->
+	<!-- 开启controller注解支持 -->
+	<context:component-scan base-package="cn.jeeweb.modules.**.controller"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+	<!-- 扫描注解AOP包 -->
+	<context:component-scan base-package="cn.jeeweb.core.security.shiro.aspect" />
+
+	<!-- 配置使Spring采用CGLIB代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<!-- 当在web.xml 中 DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
+	<mvc:default-servlet-handler />
+	<!-- 静态资源映射 -->
+	<mvc:resources location="/WEB-INF/static/" mapping="/static/**" />
+	<mvc:resources location="/upload/" mapping="/upload/**" />
+	<!-- 静态资源访问，方案1 -->
+	<!-- <mvc:resources location="/img/" mapping="/img/**" /> -->
+	<!-- <mvc:resources location="/js/" mapping="/js/**" /> -->
+
+	<!-- 静态资源访问，方案2 -->
+	<!-- <mvc:default-servlet-handler/> -->
+
+
+	<bean class="cn.jeeweb.core.utils.SpringContextHolder" />
+	<!-- 开启注解方案1 -->
+	<!-- 注解方法处理 -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" 
+		/> -->
+	<!-- 注解类映射处理 -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"></bean> -->
+
+	<!-- 开启注解方案2 -->
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean class="cn.jeeweb.core.query.resolver.QueryMethodArgumentResolver" />
+			<bean class="cn.jeeweb.core.query.resolver.PageableMethodArgumentResolver" />
+			<bean class="cn.jeeweb.core.query.resolver.FormModelMethodArgumentResolver" />
+			<bean class="cn.jeeweb.core.query.resolver.RequestJsonParamMethodArgumentResolver" />
+			<bean class="cn.jeeweb.core.query.resolver.PropertyPreFilterMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+
+
+		<mvc:message-converters register-defaults="true">
+			<!-- StringHttpMessageConverter编码为UTF-8，防止乱码 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8" />
+				<property name="supportedMediaTypes">
+					<list>
+						<bean class="org.springframework.http.MediaType">
+							<constructor-arg index="0" value="text" />
+							<constructor-arg index="1" value="plain" />
+							<constructor-arg index="2" value="UTF-8" />
+						</bean>
+						<bean class="org.springframework.http.MediaType">
+							<constructor-arg index="0" value="*" />
+							<constructor-arg index="1" value="*" />
+							<constructor-arg index="2" value="UTF-8" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+
+			<!-- 将Jackson2HttpMessageConverter的默认格式化输出为false,注意boolean 类型必须为：true,false,否则报错不能解析 -->
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+				<property name="prettyPrint" value="false" />
+				<property name="ObjectMapper">
+					<bean class="cn.jeeweb.core.mapper.JsonMapper">
+						<property name="dateFormat">
+							<bean class="java.text.SimpleDateFormat">
+								<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+
+			<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+			<bean id="fastJsonHttpMessageConverter"
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+				<!--<property name="serializerFeature"> -->
+				<!--这个地方加上这个功能吧，能自己配置一些东西，比如时间的格式化，null输出""等等 -->
+				<!--</property> -->
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 类型转换及数据格式化 -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
+	<!--设置查询字符串转换器的conversion service -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="cn.jeeweb.core.query.utils.QueryableConvertUtils.setConversionService" />
+		<property name="arguments" ref="conversionService" />
+	</bean>
+
+	<!-- 视图解释类 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="contentType" value="text/html" />
+		<property name="prefix" value="/WEB-INF/webpage/"></property>
+		<!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+	    <!-- 国际化操作拦截器 如果采用基于（请求/Session/Cookie）则必需配置 -->
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+		<!-- 日志拦截器 -->
+		<bean class="cn.jeeweb.modules.common.interceptor.LogInterceptor" >
+		      <property name="openAccessLog" value="${openAccessLog}" />
+		</bean>
+		<!--配置文件拦截器 -->
+		<bean class="cn.jeeweb.core.interceptor.ReloadConfigInterceptor" >
+		      <property name="developMode" value="${developMode}" />
+		      <property name="reloadConfigInterval" value="${reload.config.interval}" />
+		</bean>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<!-- 需排除拦截的地址 -->
+			<mvc:exclude-mapping path="/static/**" />
+			<!-- 需排除拦截的地址 -->
+			<mvc:exclude-mapping path="/upload/**" />
+			<bean class="cn.jeeweb.core.interceptor.EncodingInterceptor" />
+		</mvc:interceptor>
+		<!-- 安全验证拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<!-- 需排除拦截的地址 -->
+			<mvc:exclude-mapping path="/static/**" />
+			<!-- 需排除拦截的地址 -->
+			<mvc:exclude-mapping path="/upload/**" />
+			<bean class="cn.jeeweb.core.security.shiro.interceptor.PermissionInterceptorAdapter" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<!-- 控制器异常处理 -->
+	<bean id="exceptionHandlerExceptionResolver"
+		class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+	</bean>
+
+
+	<bean class="cn.jeeweb.core.exception.DefaultExceptionHandler" />
+
+	<!-- 国际化 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<!-- 国际化信息所在的文件名 -->
+		<property name="basename" value="i18n/messages" />
+		<!--多个目录的时候配置 -->
+		<property name="basenames">
+			<list>
+				<value>i18n/messages</value>
+				<value>i18n/ValidationMessages</value>
+			</list>
+		</property>
+		<property name="useCodeAsDefaultMessage" value="false" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="cacheSeconds" value="60" />
+	</bean>
+
+	<!-- 支持上传文件 -->
+	<!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+		p:defaultEncoding="UTF-8" p:maxUploadSize="5400000" p:uploadTempDir="${upload.base.dir}/temp" />
+	
+	<!-- 以下 validator  http://blog.csdn.net/xiaojiesu/article/details/50555714 在使用 mvc:annotation-driven 会 自动注册-->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+
+
+	<!-- JEEWEB完全启动回调 -->
+	<bean class="cn.jeeweb.modules.common.listener.WebStartInitListener" />
+
+	<!-- 计划任务后台管理 -->
+	<bean id="schedulerFactoryBean"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />
+	<!-- 计划任务启动监听器 -->
+	<bean class="cn.jeeweb.modules.task.listener.ScheduleJobInitListener" />
+
+
+	<!-- HTML 组建加载器 -->
+	<bean id="defaultHtmlComponentBuilder"
+		class="cn.jeeweb.core.tags.html.builder.DefaultHtmlComponentBuilder">
+		<property name="fileNames">
+			<!--这里我们指定要加载某个文件夹下所有以-dynamic.xml结尾的文件 -->
+			<list>
+				<value>classpath*:/mapper/tags/html/*-html-component.xml</value>
+			</list>
+		</property>
+	</bean>
+	<!-- html组建管理器加载器 -->
+	<bean class="cn.jeeweb.core.tags.html.manager.HtmlComponentManager">
+		<property name="dynamicStatementBuilder" ref="defaultHtmlComponentBuilder" />
+	</bean>
+	<bean class="cn.jeeweb.core.tags.html.listener.HtmlComponentInitListener" />
+
+
+
+	<import resource="spring-mvc-shiro.xml" />
+
+</beans>

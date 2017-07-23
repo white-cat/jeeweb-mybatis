@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+                        http://www.springframework.org/schema/context  
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+                        http://www.springframework.org/schema/tx
+        				http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+                        http://www.springframework.org/schema/mvc  
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+	<!-- 数据源 -->
+	<!--see https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_DruidDataSource%E5%8F%82%E8%80%83%E9%85%8D%E7%BD%AE -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<!-- 基本属性 url、user、password -->
+		<property name="url" value="${connection.url}" />
+		<property name="username" value="${connection.username}" />
+		<property name="password" value="${connection.password}" />
+		<property name="dbType" value = "${connection.dbType}" />
+
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="${druid.initialSize}" />
+		<property name="minIdle" value="${druid.minIdle}" />
+		<property name="maxActive" value="${druid.maxActive}" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="${druid.maxWait}" />
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+
+		<property name="validationQuery" value="${druid.validationQuery}" />
+		<property name="testWhileIdle" value="${druid.testWhileIdle}" />
+		<property name="testOnBorrow" value="${druid.testOnBorrow}" />
+		<property name="testOnReturn" value="${druid.testOnReturn}" />
+
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。 -->
+		<property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
+
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="${druid.filters}" />
+
+	</bean>
+
+	<bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+	    <!-- 配置数据源 -->
+	    <property name="dataSource" ref="dataSource"/>
+	    <!-- 自动扫描 Xml 文件位置 -->
+	    <property name="mapperLocations" value="classpath:/mappings/**/*.xml"/>
+	    <!-- 配置 Mybatis 配置文件（可无） -->
+	    <property name="configLocation" value="classpath:mybatis-config.xml"/>
+	    <!-- 配置包别名 -->
+	    <property name="typeAliasesPackage" value="cn.jeeweb.modules.*.entity"/>
+        <!-- <property name="typeAliasesSuperType" value="com.thinkgem.jeesite.common.persistence.BaseEntity"/>-->
+	    <!-- 以上配置和传统 Mybatis 一致 -->
+	
+	    <!-- 插件配置 -->
+	    <property name="plugins">
+	        <array>
+	            <!-- 分页插件配置, 参考文档分页插件部分！！ -->
+	            <!-- 如需要开启其他插件，可配置于此 -->
+	        </array>
+	    </property>
+	
+	    <!-- MP 全局配置注入 -->
+	    <property name="globalConfig" ref="globalConfig"/>
+	</bean>
+	<!-- 自定义处理器 -->
+    <bean id="baseMetaObjectHandler" class="cn.jeeweb.core.common.handler.BaseMetaObjectHandler" />
+    <!-- 自定义SQL组装-->
+    <bean id="sqlInjector" class="cn.jeeweb.core.query.injector.AutoSqlInjector" />
+  
+	<!-- 定义 MP 全局策略 -->
+	<bean id="globalConfig" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
+	    <!-- 主键策略配置 -->
+	    <!-- 可选参数
+	        AUTO->`0`("数据库ID自增")
+	        INPUT->`1`(用户输入ID")
+	        ID_WORKER->`2`("全局唯一ID")
+	        UUID->`3`("全局唯一ID")
+	    -->
+	    <property name="idType" value="2"/>
+	    <property name="logicDeleteValue" value="1"/>
+	    <property name="logicNotDeleteValue" value="0"/>
+	
+	    <!-- 数据库类型配置 -->
+	    <!-- 可选参数（默认mysql）
+	        MYSQL->`mysql`
+	        ORACLE->`oracle`
+	        DB2->`db2`
+	        H2->`h2`
+	        HSQL->`hsql`
+	        SQLITE->`sqlite`
+	        POSTGRE->`postgresql`
+	        SQLSERVER2005->`sqlserver2005`
+	        SQLSERVER->`sqlserver`
+	    -->
+	    <property name="dbType" value="mysql"/>
+	    
+	    <!-- 全局表为下划线命名设置 true -->
+	    <property name="dbColumnUnderline" value="true"/>
+	    <!-- 重写查询 -->
+	    <property name="sqlInjector" ref="sqlInjector" />
+	    <!-- 公共字段填充处理器 -->
+        <property name="metaObjectHandler" ref="baseMetaObjectHandler" />
+	</bean>
+
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.jeeweb.modules.*.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 热加载 -->
+    <bean class="com.baomidou.mybatisplus.spring.MybatisMapperRefresh">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <constructor-arg name="mapperLocations" value="classpath:/mappings/**/*.xml"/>
+        <constructor-arg name="enabled" value="true"/>
+    </bean>
+    
+    <!-- 开启事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>

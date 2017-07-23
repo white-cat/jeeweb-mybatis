@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jeeweb.modules.test.mapper.TestOrderTicketMapper" >
+
+  <sql id="Base_Column_List" >
+    t.id,
+    t.fltno,
+    t.flytime,
+    t.remarks,
+    t.order_id AS 'order.id',
+    t.create_by AS 'createBy.id',
+    t.create_date,
+    t.update_by AS 'updateBy.id',
+    t.update_date,
+    t.del_flag
+  </sql>
+  
+</mapper>

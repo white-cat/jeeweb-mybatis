@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- 名称 -->
+	<name>类型参数配置</name>
+	<!-- 描述 -->
+	<description>类型参数配置</description>
+	<types>
+		<type>
+			<java-type>Date</java-type>
+			<full-type>java.util.Date</full-type>
+		</type>
+		<type>
+			<java-type>User</java-type>
+			<full-type>cn.jeeweb.modules.sys.entity.User</full-type>
+		</type>
+	</types>
+</config>
