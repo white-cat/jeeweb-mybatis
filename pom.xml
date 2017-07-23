@@ -14,9 +14,9 @@
 		<mybatis-spring.version>1.3.1</mybatis-spring.version>
 		<mybatis-plus.version>2.1-gamma</mybatis-plus.version>
 		<hibernate.validator.version>5.1.1.Final</hibernate.validator.version>
+		<jboss-logging.version>3.3.1.Final</jboss-logging.version>
 		<shiro.version>1.2.2</shiro.version>
 		<druid.version>0.2.23</druid.version>
-
 		<!-- mysql -->
 		<mysql.version>5.1.27</mysql.version>
 		<!-- oracle -->
@@ -61,6 +61,10 @@
 		<poi.version>3.12</poi.version>
 		<!-- velocity工具用于代码生成 -->
 		<velocity.version>1.7</velocity.version>
+		<!-- JDK版本 -->
+		<jdk.version>1.7</jdk.version>
+		<!-- 强制编码 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<!-- web begin Spring MVC Test Framework 需要 servlet-api 3.0 以上 -->
@@ -429,6 +433,12 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate.validator.version}</version>
 		</dependency>
+	    <!-- hibernate验证日志依赖包 -->
+		<dependency>
+		    <groupId>org.jboss.logging</groupId>
+		    <artifactId>jboss-logging</artifactId>
+		    <version>${jboss-logging.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -437,6 +447,9 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		
+		
+		
 		<!-- 注释掉oracle、sqlserver，需要的自己添加 
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
@@ -513,6 +526,7 @@
 				<configuration>
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding> 
 					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>
