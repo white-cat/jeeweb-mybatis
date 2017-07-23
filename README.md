@@ -209,3 +209,9 @@ JeeWeb 功能特点
 ![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233347_79912823_1394985.png "在这里输入图片标题")
 
 ![输入图片说明](https://git.oschina.net/uploads/images/2017/0711/233356_3b2a0c61_1394985.png "在这里输入图片标题")
+
+
+## 感谢
+@baomidou
+mybatis 增强工具包，简化 CRUD 操作
+https://git.oschina.net/baomidou/mybatis-plus
