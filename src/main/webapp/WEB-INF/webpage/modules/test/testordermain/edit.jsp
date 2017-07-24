@@ -54,7 +54,7 @@
             <div class="tab-content">
                  <div id="tab_testOrderTicket" class="tab-pane active">
                     <div class="panel-body">
-                        <grid:grid id="testOrderTicket"  datas="${testOrderTicketList}"  gridShowType="form" pageable="false"  editable="true">
+                        <grid:grid id="testOrderTicket"  datas="${data.testOrderTicketList}"  gridShowType="form" pageable="false"  editable="true">
 							    <grid:column label="航班号"  name="fltno"  editable="true"        />
 							    <grid:column label="航班时间"  name="flytime"  editable="true"    edittype="date"       />
 						</grid:grid>
@@ -63,7 +63,7 @@
                 </div>
                  <div id="tab_testOrderCustomer" class="tab-pane ">
                     <div class="panel-body">
-                        <grid:grid id="testOrderCustomer"  datas="${testOrderCustomerList}"  gridShowType="form" pageable="false"  editable="true">
+                        <grid:grid id="testOrderCustomer"  datas="${data.testOrderCustomerList}"  gridShowType="form" pageable="false"  editable="true">
 							    <grid:column label="客户姓名"  name="name"  editable="true"       datatype="*"   />
 							    <grid:column label="性别"  name="sex"  editable="true"      edittype="select"  dict="sex"  datatype="*"   />
 							    <grid:column label="电话"  name="phone"  editable="true"       datatype="*"   />

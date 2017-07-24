@@ -2,11 +2,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="pretty" tagdir="/WEB-INF/tags/pretty"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
-<%@taglib prefix="jwcg" tagdir="/WEB-INF/tags"%>
-<%@taglib prefix="sys" tagdir="/WEB-INF/tags/sys"%>
-<%@taglib prefix="maintain" tagdir="/WEB-INF/tags/maintain"%>
 <%@taglib prefix="fns" uri="/WEB-INF/tlds/jeeweb-functions.tld"%>
 <%@taglib prefix="form" uri="/WEB-INF/tlds/jeeweb-form.tld"%>
 <%@taglib prefix="grid" uri="/WEB-INF/tlds/jeeweb-grid.tld"%>

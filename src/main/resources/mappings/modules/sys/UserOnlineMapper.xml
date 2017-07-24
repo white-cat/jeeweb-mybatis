@@ -1,184 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="main.cn.jeeweb.UserOnlineMapper" >
-  <resultMap id="BaseResultMap" type="main.cn.jeeweb.UserOnline" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="username" property="username" jdbcType="VARCHAR" />
-    <result column="host" property="host" jdbcType="VARCHAR" />
-    <result column="system_host" property="systemHost" jdbcType="VARCHAR" />
-    <result column="user_agent" property="userAgent" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="start_timestsamp" property="startTimestsamp" jdbcType="TIMESTAMP" />
-    <result column="last_access_time" property="lastAccessTime" jdbcType="TIMESTAMP" />
-    <result column="online_timeout" property="onlineTimeout" jdbcType="BIGINT" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="main.cn.jeeweb.UserOnline" extends="BaseResultMap" >
-    <result column="online_session" property="onlineSession" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, user_id, username, host, system_host, user_agent, status, start_timestsamp, last_access_time, 
-    online_timeout
+<mapper namespace="cn.jeeweb.modules.sys.mapper.UserOnlineMapper" >
+   
+   <sql id="Base_Column_List" >
+    uo.id,
+    uo.user_id,
+	uo.username,
+	uo.host,
+	uo.system_host,
+	uo.user_agent,
+	uo.status,
+	uo.start_timestsamp,
+	uo.last_access_time, 
+    uo.online_timeout,
+    uo.online_session
   </sql>
-  <sql id="Blob_Column_List" >
-    online_session
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  
+  <select id="selectUserOnlinePage"  resultType="UserOnline">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from sys_user_online
-    where id = #{id,jdbcType=VARCHAR}
+    FROM sys_user_online uo
+    <where>
+	   ${ew.sqlSegment} 
+	</where>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from sys_user_online
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="main.cn.jeeweb.UserOnline" >
-    insert into sys_user_online (id, user_id, username, 
-      host, system_host, user_agent, 
-      status, start_timestsamp, last_access_time, 
-      online_timeout, online_session)
-    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
-      #{host,jdbcType=VARCHAR}, #{systemHost,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{startTimestsamp,jdbcType=TIMESTAMP}, #{lastAccessTime,jdbcType=TIMESTAMP}, 
-      #{onlineTimeout,jdbcType=BIGINT}, #{onlineSession,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="main.cn.jeeweb.UserOnline" >
-    insert into sys_user_online
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="username != null" >
-        username,
-      </if>
-      <if test="host != null" >
-        host,
-      </if>
-      <if test="systemHost != null" >
-        system_host,
-      </if>
-      <if test="userAgent != null" >
-        user_agent,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="startTimestsamp != null" >
-        start_timestsamp,
-      </if>
-      <if test="lastAccessTime != null" >
-        last_access_time,
-      </if>
-      <if test="onlineTimeout != null" >
-        online_timeout,
-      </if>
-      <if test="onlineSession != null" >
-        online_session,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null" >
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="host != null" >
-        #{host,jdbcType=VARCHAR},
-      </if>
-      <if test="systemHost != null" >
-        #{systemHost,jdbcType=VARCHAR},
-      </if>
-      <if test="userAgent != null" >
-        #{userAgent,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="startTimestsamp != null" >
-        #{startTimestsamp,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastAccessTime != null" >
-        #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="onlineTimeout != null" >
-        #{onlineTimeout,jdbcType=BIGINT},
-      </if>
-      <if test="onlineSession != null" >
-        #{onlineSession,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="main.cn.jeeweb.UserOnline" >
-    update sys_user_online
-    <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null" >
-        username = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="host != null" >
-        host = #{host,jdbcType=VARCHAR},
-      </if>
-      <if test="systemHost != null" >
-        system_host = #{systemHost,jdbcType=VARCHAR},
-      </if>
-      <if test="userAgent != null" >
-        user_agent = #{userAgent,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="startTimestsamp != null" >
-        start_timestsamp = #{startTimestsamp,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastAccessTime != null" >
-        last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="onlineTimeout != null" >
-        online_timeout = #{onlineTimeout,jdbcType=BIGINT},
-      </if>
-      <if test="onlineSession != null" >
-        online_session = #{onlineSession,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="main.cn.jeeweb.UserOnline" >
-    update sys_user_online
-    set user_id = #{userId,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      host = #{host,jdbcType=VARCHAR},
-      system_host = #{systemHost,jdbcType=VARCHAR},
-      user_agent = #{userAgent,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      start_timestsamp = #{startTimestsamp,jdbcType=TIMESTAMP},
-      last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      online_timeout = #{onlineTimeout,jdbcType=BIGINT},
-      online_session = #{onlineSession,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="main.cn.jeeweb.UserOnline" >
-    update sys_user_online
-    set user_id = #{userId,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      host = #{host,jdbcType=VARCHAR},
-      system_host = #{systemHost,jdbcType=VARCHAR},
-      user_agent = #{userAgent,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      start_timestsamp = #{startTimestsamp,jdbcType=TIMESTAMP},
-      last_access_time = #{lastAccessTime,jdbcType=TIMESTAMP},
-      online_timeout = #{onlineTimeout,jdbcType=BIGINT}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
 </mapper>
