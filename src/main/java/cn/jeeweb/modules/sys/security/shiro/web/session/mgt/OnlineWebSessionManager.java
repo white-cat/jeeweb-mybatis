@@ -104,7 +104,7 @@ public class OnlineWebSessionManager extends DefaultWebSessionManager {
 		Page<UserOnline> page = userOnlineService.findExpiredUserOnlineList(expiredDate, 0, 100);
 
 		// 改成批量过期删除
-		while (page.getTotalElements() > 0) {
+		//while (page.getTotalElements() > 0) {
 			List<String> needOfflineIdList = new ArrayList<String>();
 			List<UserOnline> results = page.getContent();
 			for (UserOnline userOnline : results) {
@@ -135,8 +135,8 @@ public class OnlineWebSessionManager extends DefaultWebSessionManager {
 					log.error("batch delete db session error.", e);
 				}
 			}
-			page = userOnlineService.findExpiredUserOnlineList(expiredDate, 0, 100);
-		}
+			//page = userOnlineService.findExpiredUserOnlineList(expiredDate, 0, 100);
+		//}
 
 		if (log.isInfoEnabled()) {
 			String msg = "Finished invalidation session.";
