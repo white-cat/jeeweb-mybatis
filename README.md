@@ -4,7 +4,7 @@ JeeWeb敏捷开发平台(Mybatis)
 * 	官方网站： [https://www.jeeweb.cn](https://www.jeeweb.cn)
 * 	官方论坛： [http://bbs.jeeweb.cn](http://bbs.jeeweb.cn)
 * 	项目演示： [https://mybatis.jeeweb.cn](https://mybatis.jeeweb.cn)
-*       Hibernate版本： [http://git.oschina.net/dataact/jeeweb](http://git.oschina.net/dataact/jeeweb)
+*       Hibernate版本： [https://github.com/white-cat/jeeweb/](https://github.com/white-cat/jeeweb/)
 
 简介
 -----------------------------------
