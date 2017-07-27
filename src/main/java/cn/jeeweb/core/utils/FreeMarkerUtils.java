@@ -1,8 +1,10 @@
 package cn.jeeweb.core.utils;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -93,8 +95,6 @@ public class FreeMarkerUtils {
 		configuration.setLocale(LOCALE);
 		configuration.setEncoding(LOCALE, ENCODING);
 	}
-	
-	 
 
 	/**
 	 * 通过模版字符串的接下模版
@@ -108,8 +108,8 @@ public class FreeMarkerUtils {
 		try {
 			StringWriter result = new StringWriter();
 			Template t = new Template("name", new StringReader(templateString), new Configuration());
-			// 编码设置2  
-            t.setEncoding(ENCODING);  
+			// 编码设置2
+			t.setEncoding(ENCODING);
 			t.process(model, result);
 			return result.toString();
 		} catch (Exception e) {
@@ -128,7 +128,7 @@ public class FreeMarkerUtils {
 		Template template = null;
 		try {
 			template = configuration.getTemplate(name);
-			template.setEncoding(ENCODING);  
+			template.setEncoding(ENCODING);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -161,10 +161,10 @@ public class FreeMarkerUtils {
 	 *            保存文件路径
 	 */
 	public void processToFile(String name, Map<String, Object> rootMap, String outFile) {
-		FileWriter writer = null;
+		Writer writer = null;
 		try {
 			// 通过一个文件输出流，就可以写到相应的文件中
-			writer = new FileWriter(new File(outFile));
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), ENCODING));
 			process(name, rootMap, writer);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -223,7 +223,6 @@ public class FreeMarkerUtils {
 	public void processConsole(String name, Map<String, Object> root) {
 		System.out.println(processToString(name, root));
 	}
-
 
 	public static void main(String[] args) {
 		Map<String, Object> root = new HashMap<String, Object>();
