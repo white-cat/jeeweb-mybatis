@@ -48,13 +48,11 @@
 	     | optimizeType Count优化方式 （ 版本 2.0.9 改为使用 jsqlparser 不需要配置 ）
 	     | -->
 	    <!-- 注意!! 如果要支持二级缓存分页使用类 CachePaginationInterceptor 默认、建议如下！！ -->
-		<plugin interceptor="com.baomidou.mybatisplus.plugins.PaginationInterceptor" >
-		    <property name="dialectType" value="mysql"/>
-		</plugin>
-		<!-- SQL 执行分析拦截器 stopProceed 发现全表执行 delete update 是否停止运行 -->
+		<plugin interceptor="com.baomidou.mybatisplus.plugins.PaginationInterceptor" />
+		<!-- SQL 执行分析拦截器 stopProceed 发现全表执行 delete update 是否停止运行 
 	    <plugin interceptor="com.baomidou.mybatisplus.plugins.SqlExplainInterceptor">
 	        <property name="stopProceed" value="false" />
-	    </plugin>
+	    </plugin>-->
 	    <!-- SQL 执行性能分析，开发环境使用，线上不推荐。 maxTime 指的是 sql 最大执行时长 -->
 	    <plugin interceptor="com.baomidou.mybatisplus.plugins.PerformanceInterceptor">
 	        <property name="maxTime" value="2000" />
