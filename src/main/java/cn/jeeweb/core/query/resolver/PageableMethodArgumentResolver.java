@@ -191,7 +191,7 @@ public class PageableMethodArgumentResolver extends BaseMethodArgumentResolver {
 		int pn = getPageNumber(pageableMap, defaultPageRequest);
 		int pageSize = getPageSize(pageableMap, defaultPageRequest);
 
-		return new PageRequest(pn - 1, pageSize, sort);
+		return new PageRequest(pn, pageSize, sort);
 
 	}
 

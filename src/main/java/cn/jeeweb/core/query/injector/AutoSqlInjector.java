@@ -7,6 +7,7 @@ import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.session.Configuration;
 import com.baomidou.mybatisplus.entity.TableFieldInfo;
 import com.baomidou.mybatisplus.entity.TableInfo;
+import com.baomidou.mybatisplus.enums.SqlMethod;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
 
 /**
@@ -39,6 +40,25 @@ public class AutoSqlInjector extends com.baomidou.mybatisplus.mapper.AutoSqlInje
 		String method = "deleteAll";
 		SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
 		this.addDeleteMappedStatement(mapperClass, method, sqlSource);
+	}
+
+	/**
+	 * <p>
+	 * 注入更新 SQL 语句
+	 * </p>
+	 *
+	 * @param mapperClass
+	 * @param modelClass
+	 * @param table
+	 */
+	protected void injectUpdateByIdSql(boolean selective, Class<?> mapperClass, Class<?> modelClass, TableInfo table) {
+		SqlMethod sqlMethod = selective ? SqlMethod.UPDATE_BY_ID : SqlMethod.UPDATE_ALL_COLUMN_BY_ID;
+		String sql = String.format(sqlMethod.getSql(), table.getTableName(), sqlSet(selective, table, "et."),
+				table.getKeyColumn(), "et." + table.getKeyProperty(),
+				"<if test=\"et instanceof java.util.Map\">" + "<if test=\"et.MP_OPTLOCK_VERSION_ORIGINAL!=null\">"
+						+ "and ${et.MP_OPTLOCK_VERSION_COLUMN}=#{et.MP_OPTLOCK_VERSION_ORIGINAL}" + "</if>" + "</if>");
+		SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+		this.addUpdateMappedStatement(mapperClass, modelClass, sqlMethod.getMethod(), sqlSource);
 	}
 
 	@Override
@@ -108,7 +128,7 @@ public class AutoSqlInjector extends com.baomidou.mybatisplus.mapper.AutoSqlInje
 							// 字段属性不一致
 							columns.append(fieldInfo.getColumn());
 						}
-						columns.append(" AS ").append("'" + fieldInfo.getEl() + "'");
+						columns.append(" AS ").append("\"" + fieldInfo.getEl() + "\"");
 					}
 
 					if (i + 1 < _size) {

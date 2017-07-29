@@ -6,9 +6,9 @@
     t.id,
     t.name,
     t.testdate,
-    t.create_by AS 'createBy.id',
+    t.create_by AS "createBy.id",
     t.create_date,
-    t.update_by AS 'updateBy.id',
+    t.update_by AS "updateBy.id",
     t.update_date,
     t.del_flag,
     t.remarks

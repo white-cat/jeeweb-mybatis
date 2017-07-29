@@ -8,7 +8,7 @@
     t.title, 
     t.content, 
     t.logtype, 
-    t.create_by as 'createBy.id', 
+    t.create_by as "createBy.id", 
     t.create_date, 
     t.remote_addr, 
     t.user_agent, 
@@ -16,8 +16,8 @@
     t.method,
     t.params, 
     t.exception,
-    u.realname as 'createBy.realname',
-    u.username as 'createBy.username'
+    u.realname as "createBy.realname",
+    u.username as "createBy.username"
   </sql>
   
   <select id="selectLogPage" resultType="Log">

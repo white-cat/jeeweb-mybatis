@@ -4,7 +4,7 @@
 
   <sql id="Base_Column_List" >
     <#list columns as column>
-    t.${column.columnName}<#if !column.isBaseType> AS '${column.javaField}.id'</#if><#if column_has_next>,</#if>
+    t.${column.columnName}<#if !column.isBaseType> AS "${column.javaField}.id"</#if><#if column_has_next>,</#if>
     </#list>
   </sql>
   

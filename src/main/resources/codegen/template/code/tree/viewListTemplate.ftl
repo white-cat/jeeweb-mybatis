@@ -11,7 +11,7 @@
 	<grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
 <#list columns as column>
    <#if column.isList&&column.columnName!='id'>
-    <grid:column label="<#if column.remarks??&&column.remarks!="">${column.remarks}<#else>${column.javaField}</#if>"  name="${column.javaField}" <#if column.isQuery> query="true" <#if column.queryModel??&&column.queryModel!=""> queryModel="${column.queryModel}"</#if> <#if column.queryType??&&column.queryType!=""> condition="${column.queryType}" </#if></#if><#if column.dictGroup??&&column.dictGroup!=""> dict="${column.dictGroup}"</#if>/>
+    <grid:column label="<#if column.remarks??&&column.remarks!="">${column.remarks}<#else>${column.javaField}</#if>"  name="${column.javaField}" <#if column.isQuery> query="true" <#if column.queryModel??&&column.queryModel!=""> queryMode="${column.queryModel}"</#if> <#if column.queryType??&&column.queryType!=""> condition="${column.queryType}" </#if></#if><#if column.dictGroup??&&column.dictGroup!=""> dict="${column.dictGroup}"</#if>/>
    </#if>
 </#list>
     <grid:column label="sys.common.opt"  name="opt" formatter="button" width="100"/>

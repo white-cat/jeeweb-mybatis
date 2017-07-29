@@ -29,7 +29,7 @@ public class PageJson<T> implements Serializable {
 	}
 
 	public PageJson(Page<T> page) {
-		this(page.getNumber() + 1, page.getSize(), page.getTotalElements(), page.getContent());
+		this(page.getNumber(), page.getSize(), page.getTotalElements(), page.getContent());
 	}
 
 	public PageJson(long page, long rows, long total, List<T> results) {

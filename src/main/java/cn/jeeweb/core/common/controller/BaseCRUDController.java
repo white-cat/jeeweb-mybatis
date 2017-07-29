@@ -214,9 +214,6 @@ public abstract class BaseCRUDController<Entity extends AbstractEntity<ID>, ID e
 			if (ObjectUtils.isNullOrEmpty(entity.getId())) {
 				commonService.insert(entity);
 			} else {
-				// FORM NULL不更新
-				//Entity oldEntity = commonService.selectById(entity.getId());
-				//MyBeanUtils.copyBeanNotNull2Bean(entity, oldEntity);
 				commonService.insertOrUpdate(entity);
 			}
 			afterSave(entity, request, response);

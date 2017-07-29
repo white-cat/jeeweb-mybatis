@@ -64,7 +64,7 @@ public class CommonServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M
 			queryType = "table";
 		}
 		if (queryType.equals("table")) {
-			valid = validTable(duplicateValid,wrapper);
+			valid = validTable(duplicateValid, wrapper);
 		}
 		return valid;
 	}
@@ -76,11 +76,11 @@ public class CommonServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M
 		if (!StringUtils.isEmpty(extendParam)) {
 			// [2].编辑页面校验
 			wrapper.eq(duplicateValid.getName(), duplicateValid.getParam()).ne(extendName, extendParam);
-			num= baseMapper.selectCount(wrapper);
+			num = baseMapper.selectCount(wrapper);
 		} else {
 			// [1].添加页面校验
 			wrapper.eq(duplicateValid.getName(), duplicateValid.getParam());
-			num= baseMapper.selectCount(wrapper);
+			num = baseMapper.selectCount(wrapper);
 		}
 
 		if (num == null || num == 0) {

@@ -22,9 +22,9 @@
     a.filepath, 
     a.filesize, 
     a.status,
-    a.userid as 'user.id',
-    u.realname as 'user.realname',
-    u.username as 'user.username'
+    a.userid as "user.id",
+    u.realname as "user.realname",
+    u.username as "user.username"
   </sql>
   <select id="selectAttachmentPage" resultType="Attachment">
 	  select  

@@ -52,7 +52,7 @@ public class PageImpl<T> implements Page<T>, Serializable {
 	 * @see org.springframework.data.domain.Page#getNumber()
 	 */
 	public int getNumber() {
-		return pageable == null ? 0 : pageable.getPageNumber();
+		return pageable == null ? 1 : pageable.getPageNumber();
 	}
 
 	/*
