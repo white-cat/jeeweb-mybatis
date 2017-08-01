@@ -2,7 +2,10 @@ package cn.jeeweb.modules.sys.entity;
 
 import cn.jeeweb.core.common.entity.DataEntity;
 import java.lang.String;
+
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 /**
  * @Title 用户实体
@@ -24,6 +27,7 @@ public class User extends DataEntity<String> {
 	public static final String STATUS_NORMAL = "1";
 
 	/** id */
+	@TableId(value = "id", type = IdType.UUID)
 	private String id;
 	// 姓名
 	private String username;
