@@ -130,7 +130,7 @@
 		<url-pattern>/jcaptcha.jpg</url-pattern>
 	</filter-mapping>
 
-	<!-- Xss安全过滤 -->
+	<!-- Xss安全过滤
 	<filter>
 		<filter-name>XssEscape</filter-name>
 		<filter-class>cn.jeeweb.core.filter.xss.XssFilter</filter-class>
@@ -139,7 +139,7 @@
 		<filter-name>XssEscape</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
+	</filter-mapping> -->
 	<!-- 装饰容器 sitemesh 文档 http://wiki.sitemesh.org/wiki/display/sitemesh/Home -->
 	<filter>
 		<filter-name>sitemeshFilter</filter-name>
