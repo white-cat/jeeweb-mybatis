@@ -235,10 +235,6 @@ public class GeneratorDaoImpl implements IGeneratorDao {
 						}
 				}
 		}
-		Set set = new HashSet();
-		set.addAll(columnInfos);
-		columnInfos.clear();
-		columnInfos.addAll(set);
 		return columnInfos;
 	}
 

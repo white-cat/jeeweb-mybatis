@@ -237,6 +237,7 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 		List<DbColumnInfo> dbColumnInfos = generatorDao.getDbColumnInfo(tableName);
 		for (int j = 0; j < dbColumnInfos.size(); j++) {
 			Column column = new Column(dbColumnInfos.get(j));
+			column.setSort(j + 1);
 			// 保存字段列表
 			column.setTable(table);
 			columnService.insert(column);
