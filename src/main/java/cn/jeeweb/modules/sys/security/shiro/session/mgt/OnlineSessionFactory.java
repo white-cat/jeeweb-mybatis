@@ -5,9 +5,12 @@
  */
 package cn.jeeweb.modules.sys.security.shiro.session.mgt;
 
+import cn.jeeweb.modules.sys.security.shiro.realm.UserRealm;
+import cn.jeeweb.modules.sys.utils.UserUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.SessionFactory;
+import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.web.session.mgt.WebSessionContext;
 
 import cn.jeeweb.core.utils.IpUtils;

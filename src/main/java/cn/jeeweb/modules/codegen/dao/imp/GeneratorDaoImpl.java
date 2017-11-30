@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+
+import cn.jeeweb.core.utils.FreeMarkerUtils;
 import cn.jeeweb.core.utils.PropertiesUtil;
 import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.modules.codegen.codegenerator.data.DbColumnInfo;
@@ -50,9 +52,7 @@ public class GeneratorDaoImpl implements IGeneratorDao {
 		String createTableSql = SqlUtils.getSqlUtils().getSqlByID("createTable").getContent();
 		// 模版
 		// 生成数据库模版
-		// String createTableSql =
-		// FreeMarkerUtils.initByDefaultTemplate().processToString("mysql.ftl",
-		// tableInfo);
+		//String createTableSql = FreeMarkerUtils.initByDefaultTemplate().processToString("oracle.ftl", tableInfo);
 		createTableSql = parseSql(createTableSql, tableInfo).trim();
 		executeSql(createTableSql);
 
@@ -115,14 +115,6 @@ public class GeneratorDaoImpl implements IGeneratorDao {
 			while (resultSet.next()) {
 				String tableName = resultSet.getString("TABLE_NAME");
 				String remarks = resultSet.getString("REMARKS");
-				if (StringUtils.isEmpty(remarks)) {
-
-					if (driverName.contains("MySQL")) {
-						// String schemas = getCatalog(connection);
-						// remarks = getTableComment("jeeweb", tableName,
-						// connection);
-					}
-				}
 				DbTableInfo dbTableInfo = new DbTableInfo();
 				dbTableInfo.setTableName(tableName);
 				dbTableInfo.setRemarks(remarks);
@@ -172,7 +164,9 @@ public class GeneratorDaoImpl implements IGeneratorDao {
 				String columnSize = resultSet.getString("COLUMN_SIZE");
 				// 获得字段备注
 				String remarks = resultSet.getString("REMARKS");
-
+				if (!StringUtils.isEmpty(remarks)){
+					remarks=remarks.replace("'","");
+				}
 				// 该列是否为空
 				Boolean nullable = Boolean.FALSE;
 				if (driverName.contains("ORACLE")) {
@@ -184,6 +178,10 @@ public class GeneratorDaoImpl implements IGeneratorDao {
 				String decimalDigits = resultSet.getString("DECIMAL_DIGITS");
 				// 默认值
 				String columnDef = resultSet.getString("COLUMN_DEF");
+				if (!StringUtils.isEmpty(columnDef)){
+					columnDef=columnDef.replace("'","");
+					columnDef=columnDef.trim();
+				}
 				DbColumnInfo info = new DbColumnInfo(columnName, typeName, columnSize, remarks, nullable, false, false,
 						columnDef, decimalDigits);
 				columnInfos.add(info);
@@ -258,7 +256,15 @@ public class GeneratorDaoImpl implements IGeneratorDao {
 		try {
 			connection.setAutoCommit(false);
 			stmt = connection.createStatement();
-			stmt.execute(sql);
+			String[] sqls=sql.split(";");
+			if (sqls.length>1){
+				for (String sqlItem:sqls) {
+					stmt.addBatch(sqlItem);
+				}
+				stmt.executeBatch();
+			}else {
+				stmt.execute(sql);
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new RuntimeException(ex);

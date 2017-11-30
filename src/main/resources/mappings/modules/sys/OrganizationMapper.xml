@@ -73,8 +73,13 @@
 	<!-- 更新子树 -->
 	<update id="updateSunTreeParentIds">
 		update sys_organization set parent_ids=
-		CONCAT(#{newParentIds},substring(parent_ids,
-		length(#{oldParentIds})+1,length(parent_ids)+1))
+		CONCAT(#{newParentIds},
+		<if test="'${dbType}' == 'mysql'">
+		substring(parent_ids, length(#{oldParentIds})+1,length(parent_ids)+1))
+		</if>
+		<if test="'${dbType}' == 'oracle'">
+			substr(parent_ids, length(#{oldParentIds})+1,length(parent_ids)+1))
+		</if>
 		where parent_ids like concat(#{oldParentIds}, '%')
 	</update>
 	<!-- 删除子树 -->

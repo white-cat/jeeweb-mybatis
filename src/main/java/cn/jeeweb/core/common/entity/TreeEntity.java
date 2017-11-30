@@ -155,4 +155,8 @@ public abstract class TreeEntity<T> extends AbstractEntity<String> implements Tr
 		this.parent = parent;
 	}
 
+	@Override
+	public String[] makeTags() {
+		return new String[0];
+	}
 }

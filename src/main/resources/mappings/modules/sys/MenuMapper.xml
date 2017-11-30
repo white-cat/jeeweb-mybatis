@@ -28,8 +28,6 @@
 	    
   </resultMap>
   
-
-  
   <sql id="Base_Column_List" >
     t.id, 
     t.name,
@@ -38,14 +36,14 @@
     t.parent_id AS parent_id,
     p.name AS parent_name,
     t.type, 
-    t.url, 
+    t.url,
     t.permission, 
     t.isshow, 
     t.sort, 
     t.menu_icon,
     t.remarks,
     (select count(*) from sys_menu s
-		WHERE s.parent_id=t.id) as hasChildren 
+		WHERE s.parent_id=t.id and s.isshow=1) as hasChildren
   </sql>
   <sql id="parentJoins">
 		LEFT JOIN sys_menu p ON p.id = t.parent_id
@@ -71,7 +69,13 @@
   
   <!-- 更新子树 -->  
   <update id="updateSunTreeParentIds">  
-	       update sys_menu set parent_ids= CONCAT(#{newParentIds},substring(parent_ids, length(#{oldParentIds})+1,length(parent_ids)+1)) 
+	       update sys_menu set parent_ids= CONCAT(#{newParentIds},
+          <if test="'${dbType}' == 'mysql'">
+              substring(parent_ids, length(#{oldParentIds})+1,length(parent_ids)+1))
+          </if>
+          <if test="'${dbType}' == 'oracle'">
+              substr(parent_ids, length(#{oldParentIds})+1,length(parent_ids)+1))
+          </if>
 	       where parent_ids like concat(#{oldParentIds}, '%')     
   </update>
   <!-- 删除子树 -->  

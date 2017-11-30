@@ -1,5 +1,7 @@
 package cn.jeeweb.modules.codegen.codegenerator.data;
 
+import cn.jeeweb.core.utils.StringUtils;
+
 import java.io.Serializable;
 
 public class DbTableInfo implements Serializable {
@@ -24,7 +26,11 @@ public class DbTableInfo implements Serializable {
 	}
 
 	public String getLabel() {
-		return this.tableName + ":" + remarks;
+		if (!StringUtils.isEmpty(remarks)) {
+			return this.tableName + ":" + remarks;
+		}else{
+			return this.tableName;
+		}
 	}
 
 }

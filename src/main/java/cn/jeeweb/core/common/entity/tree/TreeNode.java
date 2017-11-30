@@ -59,5 +59,5 @@ public interface TreeNode<ID> {
 	public void setLoaded(Boolean loaded);// 是否已经加载过子节点（为false时点击节点会自动加载子节点）
 
 	public Boolean getLoaded();// 是否已经加载过子节点（为false时点击节点会自动加载子节点）
-
+	public String[] makeTags();
 }

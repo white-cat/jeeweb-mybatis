@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>  
 <!DOCTYPE html-component SYSTEM "http://www.jeeweb.cn/dtd/html-component-1.0.dtd">
 <html-component>
+	<fragment name="ueditor-editor">
+		<![CDATA[
+		<script>
+	        $(document).ready(function (){
+	            var settings= {
+
+			 	};
+	            <#if editorSettingCallback??&&editorSettingCallback!=''>
+	            $.extend(settings, typeof ${editorSettingCallback} == "function" &&${editorSettingCallback}());
+	            <#else>
+	            $.extend(settings, ${editorSetting});
+	            </#if>
+	            var ${path}Editor = UE.getEditor('${path}',settings);
+			    ${path}Editor.ready(function() {
+					${path}Editor.execCommand('serverparam', function(editor) {
+						return {
+							'appKey': '${appKey!}',
+							'ossRootPath': '${ossRootPath!}',
+							'modulePath': '${modulePath!}'
+						};
+					});
+				});
+	            <#if editorAfterSetting??&&editorAfterSetting!=''>
+	            typeof ${editorAfterSetting} == "function" &&${editorAfterSetting}(${path}Editor);
+	            </#if>
+	        });
+	    </script>
+    ]]>
+	</fragment>
 	<fragment name="simditor-editor">  
     <![CDATA[ 
 		<script>

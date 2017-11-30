@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.jeeweb.modules.codegen.codegenerator.utils.CodeGenUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,7 +72,7 @@ public class TableController extends BaseCRUDController<Table, String> {
 	@Override
 	public void preEdit(Table table, Model model, HttpServletRequest request, HttpServletResponse response) {
 		if (table != null && !StringUtils.isEmpty(table.getId()) && StringUtils.isEmpty(table.getClassName())) {
-			String entityName = StringUtils.toUpperCaseFirstOne(StringUtils.underlineToCamel(table.getTableName()));
+			String entityName = StringUtils.toUpperCaseFirstOne(StringUtils.underlineToCamel(table.getTableName().toLowerCase()));
 			table.setClassName(entityName);
 		}
 		// 查询表明
@@ -96,6 +98,7 @@ public class TableController extends BaseCRUDController<Table, String> {
 		request.setAttribute("extendTypes", extendTypes);
 		request.setAttribute("typeNames", typeNames);
 		request.setAttribute("javaTypes", javaTypes);
+		request.setAttribute("dbType", CodeGenUtils.getDbType());
 		List<Table> mainTables = tableService.selectList(new EntityWrapper<Table>(Table.class).eq("tableType", "2"));
 		request.setAttribute("mainTables", mainTables);
 	}
@@ -108,7 +111,8 @@ public class TableController extends BaseCRUDController<Table, String> {
 			if (!ObjectUtils.isEquals(oldTable, table, fields)) {
 				table.setSyncDatabase(Boolean.FALSE);
 			}
-			List<Column> oldColumnList = oldTable.getColumns();
+
+			List<Column> oldColumnList = columnService.selectListByTableId(table.getId());
 			// 字段
 			String columnListStr = StringEscapeUtils
 					.unescapeHtml4(ServletUtils.getRequest().getParameter("columnList"));
@@ -128,7 +132,7 @@ public class TableController extends BaseCRUDController<Table, String> {
 			for (Column oldColumnEntity : oldColumnList) {
 				if (columnEntity.getId().equals(oldColumnEntity.getId())) {
 					String[] fields = { "remarks", "columnName", "typeName", "columnSize", "parmaryKey", "importedKey",
-							"importedKey", "nullable", "columnDef", "decimalDigits", "javaType" };
+							"importedKey", "nullable", "columnDef", "decimalDigits" };
 					if (ObjectUtils.isEquals(columnEntity, oldColumnEntity, fields)) {
 						isUpdate = Boolean.FALSE;
 						break;
@@ -154,7 +158,7 @@ public class TableController extends BaseCRUDController<Table, String> {
 		if (scheme == null) {
 			String tableName = table.getTableName();
 			String remarks = table.getRemarks();
-			String entityName = StringUtils.toUpperCaseFirstOne(StringUtils.underlineToCamel(tableName));
+			String entityName = StringUtils.toUpperCaseFirstOne(StringUtils.underlineToCamel(tableName.toLowerCase()));
 			String properiesName = "codegen.properties";
 			PropertiesUtil propertiesUtil = new PropertiesUtil(properiesName);
 			String pathName = propertiesUtil.getString("default.path.name");

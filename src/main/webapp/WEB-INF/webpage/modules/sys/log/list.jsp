@@ -15,7 +15,7 @@
     <grid:column label="URI"  name="requestUri"  />
     <grid:column label="提交方式"  name="method"   width="60"/>
     <grid:column label="操作者IP"  name="remoteAddr" />
-    <grid:column label="操作时间"  name="createDate" />
+    <grid:column label="操作时间"  name="createDate" query="true" queryMode="date" condition="between" />
  	<grid:toolbar   function="delete" />
 	
 	<grid:toolbar  function="search"  />

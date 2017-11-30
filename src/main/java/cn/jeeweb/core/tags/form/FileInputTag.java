@@ -48,6 +48,7 @@ public class FileInputTag extends HiddenInputTag {
 	protected Boolean dropZoneEnabled = Boolean.FALSE;
 	protected Boolean autoUpload = null; // 是否自动上传
 	protected int maxFileCount = 10;
+	protected int maxFileSize = 0;
 	protected String theme = ""; // 样式
 	protected String saveType = "id"; // 默认id为ID,filepath,为路径
 	protected String showType = "file";// 是否多文件上传,file,avatar
@@ -311,11 +312,16 @@ public class FileInputTag extends HiddenInputTag {
 		rootMap.put("filepathField", filepathField);
 		rootMap.put("fileInputWidth", fileInputWidth);
 		rootMap.put("fileInputHeight", fileInputHeight);
+
 		String value = getDisplayString(getBoundValue(), getPropertyEditor());
 		rootMap.put("value", processFieldValue(getName(), value, "hidden"));
+		PropertiesUtil propertiesUtil = new PropertiesUtil("upload.properties");
 		if (StringUtils.isEmpty(extend)) {
-			PropertiesUtil propertiesUtil = new PropertiesUtil("upload.properties");
 			extend = propertiesUtil.getString("upload.allowed.extension");
+		}
+		if (maxFileSize==0) {
+			int maxFileSize = propertiesUtil.getInt("upload.max.size");
+			rootMap.put("maxFileSize", String.valueOf(maxFileSize));
 		}
 		// 处理extend 加入引号
 		String[] extendStrs = extend.split(",");
@@ -350,4 +356,11 @@ public class FileInputTag extends HiddenInputTag {
 		return fileInputType + "-file";
 	}
 
+	public int getMaxFileSize() {
+		return maxFileSize;
+	}
+
+	public void setMaxFileSize(int maxFileSize) {
+		this.maxFileSize = maxFileSize;
+	}
 }

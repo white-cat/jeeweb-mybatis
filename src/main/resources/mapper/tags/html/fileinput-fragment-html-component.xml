@@ -53,6 +53,7 @@
 	           <#if showType??&&showType=='file'>
 	           var ${path}settings={
 	                language: 'zh', //设置语言
+	                maxFileSize: ${maxFileSize},
 	                theme:'${theme!}',
 	                browseLabel:'${buttonText}',
 	                uploadUrl: "<#if uploadUrl??&&uploadUrl!=''>${uploadUrl}<#else>${adminPath}/sys/attachment/upload</#if>", //上传的地址
@@ -123,7 +124,7 @@
 	            var ${path}settings={
 	                language: 'zh', //设置语言
 	                overwriteInitial: true,
-				    maxFileSize: 1500,
+				    maxFileSize: ${maxFileSize},
 				    showClose: false,
 				    showCaption: false,
 				    browseLabel:'${buttonText}',

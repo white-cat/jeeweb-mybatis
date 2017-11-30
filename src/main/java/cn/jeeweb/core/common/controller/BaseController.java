@@ -115,7 +115,6 @@ public class BaseController {
 		if (StringUtils.isEmpty(currentViewPrefix)) {
 			currentViewPrefix = this.getClass().getSimpleName().replace("Controller", "").toLowerCase();
 		}
-
 		return currentViewPrefix;
 	}
 

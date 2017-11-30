@@ -127,9 +127,9 @@ public class Column extends DataEntity<String> implements java.io.Serializable {
 	}
 
 	public Column(DbColumnInfo dbColumnInfo) {
-		this.columnName = dbColumnInfo.getColumnName().toLowerCase();
+		this.columnName = dbColumnInfo.getColumnName();
 		this.remarks = dbColumnInfo.getRemarks();
-		this.typeName = dbColumnInfo.getTypeName().toLowerCase();
+		this.typeName = dbColumnInfo.getTypeName();
 		if (StringUtils.isEmpty(dbColumnInfo.getColumnSize())) {
 			this.columnSize = "1";
 		} else {
@@ -148,7 +148,7 @@ public class Column extends DataEntity<String> implements java.io.Serializable {
 		} else {
 			this.javaType = "String";
 		}
-		this.javaField = StringUtils.underlineToCamel(this.columnName);
+		this.javaField = StringUtils.underlineToCamel(this.columnName.toLowerCase());
 		this.isList = Boolean.TRUE;
 		this.isQuery = Boolean.FALSE;
 		this.queryType = "eq";
@@ -438,7 +438,7 @@ public class Column extends DataEntity<String> implements java.io.Serializable {
 	private Boolean inTarget(String source, String[] targets) {
 		Boolean inTarget = Boolean.FALSE;
 		for (String type : targets) {
-			if (type.trim().equals(source.trim())) {
+			if (type.toUpperCase().trim().equals(source.toUpperCase().trim())) {
 				inTarget = Boolean.TRUE;
 				break;
 			}

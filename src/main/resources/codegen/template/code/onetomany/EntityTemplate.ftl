@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.enums.FieldFill;
 <#list importTypes as importType>
 import ${importType};
 </#list>
@@ -26,7 +27,7 @@ public class ${entityName?cap_first} extends AbstractEntity<String> {
     <#if attributeInfo.parmaryKey>
     @TableId(value = "id", type = IdType.UUID)
     <#else>
-    @TableField(value = "${attributeInfo.dbName}"<#if !attributeInfo.isBaseType>,el="${attributeInfo.name}.id"</#if>)
+    @TableField(value = "${attributeInfo.dbName}"<#if !attributeInfo.isBaseType>,el="${attributeInfo.name}.id"</#if><#if attributeInfo.name??&&(attributeInfo.name='createBy'||attributeInfo.name='createDate')>,fill = FieldFill.INSERT</#if><#if attributeInfo.name??&&(attributeInfo.name='updateBy'||attributeInfo.name='updateDate')>,fill = FieldFill.UPDATE</#if>)
     </#if>
 	private <#if attributeInfo.type=='this'>${entityName?cap_first}<#else>${attributeInfo.type}</#if> ${attributeInfo.name};
 	</#list>

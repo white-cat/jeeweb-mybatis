@@ -12,8 +12,4 @@
         <property name="configLocation" value="classpath:ehcache/ehcache.xml"/>
     </bean>
 
-    <!-- 缓存管理器 -->
-	<bean id="shiroCacheManager"  class=" cn.jeeweb.modules.sys.security.shiro.cache.spring.SpringCacheManagerWrapper">
-        <property name="cacheManager" ref="springCacheManager"/>
-    </bean>
 </beans>

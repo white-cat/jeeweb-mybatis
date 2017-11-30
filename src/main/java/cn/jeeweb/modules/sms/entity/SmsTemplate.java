@@ -1,7 +1,10 @@
 package cn.jeeweb.modules.sms.entity;
 
+import cn.jeeweb.modules.sys.entity.User;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.FieldFill;
 import com.baomidou.mybatisplus.enums.IdType;
 import cn.jeeweb.core.common.entity.AbstractEntity;
 import java.util.Date;
@@ -32,14 +35,19 @@ public class SmsTemplate extends AbstractEntity<String> {
 	/** 模版内容 */
 	private String templateContent;
 	/** 创建者 */
-	private String createBy;
+	@TableField(value = "create_by", el = "createBy.id", fill = FieldFill.INSERT)
+	private User createBy;
 	/** 创建时间 */
+	@TableField(value = "create_date", fill = FieldFill.INSERT)
 	private Date createDate;
 	/** 更新者 */
-	private String updateBy;
+	@TableField(value = "update_by", el = "updateBy.id", fill = FieldFill.UPDATE)
+	private User updateBy;
 	/** 更新时间 */
+	@TableField(value = "update_date", fill = FieldFill.UPDATE)
 	private Date updateDate;
 	/** 删除标记（0：正常；1：删除） */
+	@TableField(value = "del_flag", fill = FieldFill.INSERT)
 	private String delFlag;
 	/** 备注信息 */
 	private String remarks;
@@ -196,19 +204,19 @@ public class SmsTemplate extends AbstractEntity<String> {
 		this.updateDate = updateDate;
 	}
 
-	public String getCreateBy() {
+	public User getCreateBy() {
 		return createBy;
 	}
 
-	public void setCreateBy(String createBy) {
+	public void setCreateBy(User createBy) {
 		this.createBy = createBy;
 	}
 
-	public String getUpdateBy() {
+	public User getUpdateBy() {
 		return updateBy;
 	}
 
-	public void setUpdateBy(String updateBy) {
+	public void setUpdateBy(User updateBy) {
 		this.updateBy = updateBy;
 	}
 

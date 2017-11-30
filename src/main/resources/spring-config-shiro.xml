@@ -6,6 +6,15 @@
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<bean id="shiroCacheManager"
+		class="cn.jeeweb.core.security.shiro.cache.SpringCacheManagerWrapper">
+		<property name="cacheManager" ref="springCacheManager" />
+	</bean>
+    <!-- 缓存管理器
+    <bean id="shiroCacheManager" class="cn.jeeweb.core.security.shiro.cache.JedisCacheManager">
+        <property name="cacheKeyPrefix" value="jeeweb_cache_" />
+    </bean> -->
+
 	<!-- 凭证匹配器 -->
 	<bean id="credentialsMatcher"
 		class="cn.jeeweb.modules.sys.security.shiro.web.filter.authc.credential.RetryLimitHashedCredentialsMatcher">
@@ -43,11 +52,21 @@
     </bean>
     
     <!--dao -->
-    <!-- 会话保持的DAO -->
+    <!-- 会话保持的DAO
     <bean id="onlineSessionDAO" class="cn.jeeweb.modules.sys.security.shiro.session.mgt.eis.OnlineSessionDAO">
         <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
         <property name="activeSessionsCacheName" value="${shiro.active.session.cacheName}"/>
-    </bean>
+    </bean> -->
+    <!-- 自定义Session存储容器-->
+    <bean id="sessionDAO" class="cn.jeeweb.core.security.shiro.session.CacheSessionDAO">
+ 		<property name="sessionIdGenerator" ref="sessionIdGenerator" />
+  	</bean>
+
+    <!-- 自定义Session存储容器
+    <bean id="sessionDAO" class="cn.jeeweb.core.security.shiro.session.JedisSessionDAO">
+        <property name="sessionIdGenerator" ref="sessionIdGenerator" />
+        <property name="sessionKeyPrefix" value="${redis.keyPrefix}_session_" />
+    </bean>-->
 
     <bean id="onlineSessionFactory" class="cn.jeeweb.modules.sys.security.shiro.session.mgt.OnlineSessionFactory"/>
 
@@ -69,15 +88,15 @@
         <!-- <property name="scheduler" ref="scheduler"/>-->
     </bean>
     <!-- 会话管理器 -->
-    <bean id="sessionManager" class="cn.jeeweb.modules.sys.security.shiro.web.session.mgt.OnlineWebSessionManager">
+    <!--<bean id="sessionManager" class="cn.jeeweb.modules.sys.security.shiro.web.session.mgt.OnlineWebSessionManager">-->
+    <bean id="sessionManager" class="cn.jeeweb.core.security.shiro.session.SessionManager">
         <property name="globalSessionTimeout" value="${shiro.session.globalSessionTimeout}"></property>
         <property name="sessionFactory" ref="onlineSessionFactory"/>
-        <property name="sessionDAO" ref="onlineSessionDAO"/>
+        <property name="sessionDAO" ref="sessionDAO"/>
         <property name="deleteInvalidSessions" value="false"/>
         <property name="sessionValidationInterval" value="${shiro.session.validation.interval}"/>
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <!--  <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>-->
-
         <property name="cacheManager" ref="shiroCacheManager"/>
         <property name="sessionIdCookieEnabled" value="true"/>
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
@@ -116,7 +135,7 @@
     <!-- 验证会话是否是强制退出等的filter -->
     <bean id="onlineSessionFilter" class="cn.jeeweb.modules.sys.security.shiro.web.filter.online.OnlineSessionFilter">
         <property name="forceLogoutUrl" value="${shiro.user.force.logout.url}"/>
-        <property name="onlineSessionDAO" ref="onlineSessionDAO"/>
+        <property name="sessionDAO" ref="sessionDAO"/>
     </bean>
 
     <bean id="jCaptchaValidateFilter" class="cn.jeeweb.modules.sys.security.shiro.web.filter.jcaptcha.JCaptchaValidateFilter">
@@ -125,10 +144,10 @@
         <property name="jcapatchaErrorUrl" value="${shiro.jcaptcha.error.url}"/>
     </bean>
 
-    <!-- 同步当前会话数据到数据库 -->
+    <!-- 同步当前会话数据到数据库
     <bean id="syncOnlineSessionFilter" class="cn.jeeweb.modules.sys.security.shiro.web.filter.sync.SyncOnlineSessionFilter">
         <property name="onlineSessionDAO" ref="onlineSessionDAO"/>
-    </bean>
+    </bean>-->
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
@@ -144,7 +163,7 @@
                 <entry key="logout" value-ref="logoutFilter"/>
                 <entry key="sysUser" value-ref="sysUserFilter"/>
                 <entry key="onlineSession" value-ref="onlineSessionFilter"/>
-                <entry key="syncOnlineSession" value-ref="syncOnlineSessionFilter"/>
+               <!--<entry key="syncOnlineSession" value-ref="syncOnlineSessionFilter"/>-->
                 <entry key="jCaptchaValidate" value-ref="jCaptchaValidateFilter"/>
             </util:map>
         </property>
@@ -152,9 +171,11 @@
             <value>
                 /static/** = anon
                 /jcaptcha* = anon
+                /upload/** = anon
+                /weixin/mp/front/** = anon
                 ${admin.url.prefix}/logout = logout
                 ${admin.url.prefix}/login  = jCaptchaValidate,authc
-                /** = sysUser,onlineSession,user,syncOnlineSession,perms,roles
+                /** = sysUser,onlineSession,user,perms,roles
             </value>
         </property>
     </bean>

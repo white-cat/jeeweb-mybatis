@@ -60,6 +60,7 @@ public class DataGridTag extends AbstractGridHtmlTag {
 	private Boolean async = Boolean.FALSE; // 树情况是否异步
 	private String gridSetting = "";// 扩展设置
 	private String gridSettingCallback = ""; // 配置方法,为js方法，返回配置
+	private Boolean shrinkToFit=Boolean.TRUE; //是否
 
 	public String getId() {
 		return id;
@@ -253,8 +254,19 @@ public class DataGridTag extends AbstractGridHtmlTag {
 		this.editurl = editurl;
 	}
 
+	public Boolean getShrinkToFit() {
+		return shrinkToFit;
+	}
+
+	public void setShrinkToFit(Boolean shrinkToFit) {
+		this.shrinkToFit = shrinkToFit;
+	}
+
 	public void putColumnDict(String dict) {
 		columnDictMap.put(dict, DictUtils.getDictList(dict));
+	}
+	public void putColumnDict(String dict,List<Dict> dictList) {
+		columnDictMap.put(dict,dictList);
 	}
 
 	public void addColumn(Map<String, Object> column) {

@@ -18,7 +18,7 @@
 		              <label><font color="red">*</font>表名:</label>
 		         </td>
 		         <td class="width-35">
-		                <form:select path="tableName" class="form-control"  items="${dbTableInfos}" itemLabel="tableName"   itemValue="tableName"></form:select>
+		                <form:select path="tableName" class="form-control"  items="${dbTableInfos}" itemLabel="label"   itemValue="label"></form:select>
 		             <label class="Validform_checktip"></label>
 		         </td>
 		         <td  class="width-15 active text-right">	<label><font color="red">*</font>表类型:</label></td>

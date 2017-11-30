@@ -86,7 +86,7 @@ public abstract class BaseTreeController<Entity extends AbstractEntity<ID> & Tre
 	 * @param response
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "ajaxTreeList", method = RequestMethod.GET)
+	@RequestMapping(value = "ajaxTreeList", method ={ RequestMethod.GET, RequestMethod.POST })
 	private void ajaxTreeList(Queryable queryable,
 			@RequestParam(value = "nodeid", required = false, defaultValue = "") ID nodeid,
 			@RequestParam(value = "async", required = false, defaultValue = "false") boolean async,

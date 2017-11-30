@@ -9,12 +9,14 @@ import cn.jeeweb.core.query.data.Condition.Operator;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.exception.QueryException;
 import cn.jeeweb.core.utils.SpringContextHolder;
+import cn.jeeweb.core.utils.convert.DateConvertEditor;
 
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.InvalidPropertyException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.util.CollectionUtils;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -61,6 +63,7 @@ public final class QueryableConvertUtils {
 		BeanWrapperImpl beanWrapper = new BeanWrapperImpl(entityClass);
 		beanWrapper.setAutoGrowNestedPaths(true);
 		beanWrapper.setConversionService(getConversionService());
+		beanWrapper.registerCustomEditor(Date.class, new DateConvertEditor());
 		if (condition != null) {
 			for (Filter filter : condition) {
 				convert(beanWrapper, filter);

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>  
-<!DOCTYPE html-component SYSTEM "http://www.jeeweb.cn/dtd/html-component-1.0.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html-component  PUBLIC "-//Jeeweb/Html Configuration DTD 1.0//EN" "http://www.jeeweb.cn/dtd/html-component-1.0.dtd">
 <html-component>
-	<fragment name="treeselect-treeselect">  
-    <![CDATA[ 
+	<fragment name="treeselect-treeselect">
+		<![CDATA[
         <#if genField>
 		<div class="input-group">
 			 <input id="${labelName!}" name="${labelName!}"  readonly="readonly"  type="text" value="<#if labelValue??>${labelValue!}<#else>无</#if>" class="form-control"/>
@@ -18,7 +18,7 @@
 			   $("#${name!}Button, #${labelName!}").click(function(){
 					//打开树
 					top.layer.open({
-					    type: 2, 
+					    type: 2,
 					    area: ['${layerWidth!}', '${layerHeight!}'],
 					    title:"${title!}",
 		                maxmin: true, //开启最大化最小化按钮
@@ -44,14 +44,14 @@
 									<#if callback??>
 									  ${callback!}(nodes);
 									</#if>
-									
+
 						   },
 			    	      cancel: function(index){ //或者使用btn2
 			    	           //按钮【按钮二】的回调
 			    	      }
-					}); 
+					});
 				});
-				
+
 				 $("#${name!}Clear").click(function(){
 				      $("#${name!}").val("");
 				      $("#${labelName!}").val("无");
@@ -61,4 +61,4 @@
     ]]>
 	</fragment>
 
-</html-component>  
+</html-component>

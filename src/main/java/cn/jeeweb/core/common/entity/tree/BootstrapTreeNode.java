@@ -16,6 +16,7 @@ public class BootstrapTreeNode implements Serializable {
 	public BootstrapTreeNode(TreeNode<?> treeNode) {
 		this.text = treeNode.getName();
 		this.href = treeNode.getId() + "";
+		this.tags=treeNode.makeTags();
 	}
 
 	public String getText() {

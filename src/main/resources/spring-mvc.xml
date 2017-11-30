@@ -32,8 +32,8 @@
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	<!-- 当在web.xml 中 DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
 	<mvc:default-servlet-handler />
-	<!-- 静态资源映射 -->
-	<mvc:resources location="/WEB-INF/static/" mapping="/static/**" />
+	<!-- 静态资源映射-->
+	<mvc:resources location="/static/" mapping="/static/**" />
 	<mvc:resources location="/upload/" mapping="/upload/**" />
 	<!-- 静态资源访问，方案1 -->
 	<!-- <mvc:resources location="/img/" mapping="/img/**" /> -->
@@ -198,7 +198,7 @@
 	<!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-		p:defaultEncoding="UTF-8" p:maxUploadSize="5400000" p:uploadTempDir="${upload.base.dir}/temp" />
+		p:defaultEncoding="UTF-8" p:maxUploadSize="${upload.max.size}" p:uploadTempDir="${upload.base.dir}/temp" />
 	
 	<!-- 以下 validator  http://blog.csdn.net/xiaojiesu/article/details/50555714 在使用 mvc:annotation-driven 会 自动注册-->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">

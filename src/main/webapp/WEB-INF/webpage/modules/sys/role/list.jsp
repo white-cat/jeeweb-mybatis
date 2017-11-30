@@ -24,7 +24,7 @@
 	<grid:toolbar function="create"/>
 	<grid:toolbar   function="update"/>
 	<grid:toolbar   function="delete"/>
-	
+
 	<grid:toolbar  function="search"/>
 	<grid:toolbar  function="reset"/>
 </grid:grid>

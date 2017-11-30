@@ -11,7 +11,7 @@
 		p.name AS parent_name,
 	   <#list columns as column>
 	   <#if column.columnName!='id'&&column.columnName!='name'&& column.columnName!='parent_id'&& column.columnName!='parent_ids'>
-	    t.${column.columnName}<#if !column.isBaseType> AS '${column.javaField}.id'</#if>,
+	    t.${column.columnName}<#if !column.isBaseType> AS "${column.javaField}.id"</#if>,
 	   </#if>
 	   </#list>
 	   (select count(*) from ${tableName} s
@@ -44,9 +44,13 @@
 
 	<!-- 更新子树 -->
 	<update id="updateSunTreeParentIds">
-		update ${tableName} set parent_ids=
-		CONCAT(${"#"}{newParentIds},substring(parent_ids,
-		length(${"#"}{oldParentIds})+1,length(parent_ids)+1))
+		update ${tableName} set parent_ids=CONCAT(${"#"}{newParentIds},
+        <if test="'${r'${dbType}'}' == 'mysql'">
+            substring(parent_ids, length(${"#"}{oldParentIds})+1,length(parent_ids)+1))
+        </if>
+        <if test="'${r'${dbType}'}' == 'oracle'">
+            substr(parent_ids, length(${"#"}{oldParentIds})+1,length(parent_ids)+1))
+        </if>
 		where parent_ids like concat(${"#"}{oldParentIds}, '%')
 	</update>
 	

@@ -3,14 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>测试数列表</title>
+  <title>测试树列表</title>
   <meta name="decorator" content="list"/>
 </head>
-<body title="测试数">
+<body title="测试树">
 <grid:grid id="testTreeGridId" async="true" treeGrid="true"  expandColumn="name"  url="${adminPath}/test/testtree/ajaxTreeList">
 	<grid:column label="sys.common.key" hidden="true"   name="id" width="100"/>
     <grid:column label="机构名称"  name="name" />
-    <grid:column label="父节点"  name="parentId" />
     <grid:column label="sys.common.opt"  name="opt" formatter="button" width="100"/>
 	<grid:button groupname="opt" function="delete"/>
 	<grid:toolbar function="create"/>

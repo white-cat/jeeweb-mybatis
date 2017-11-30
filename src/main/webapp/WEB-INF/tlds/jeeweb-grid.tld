@@ -40,6 +40,12 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
+			<description>是否自动延伸</description>
+			<name>shrinkToFit</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
 			<description>请求的地址</description>
 			<name>url</name>
 			<required>false</required>

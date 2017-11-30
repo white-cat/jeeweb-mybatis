@@ -115,6 +115,7 @@
 	    	 $.jgrid.defaults.width = 960;
 			 $.jgrid.defaults.responsive = true;
 			 $.jgrid.defaults.styleUI = 'Bootstrap';
+			 $.jgrid.ajaxOptions.type = 'post';
 	    	 iChecks();
 	    	 init${(id)}Table();
 	    	 init${(id)}Date();
@@ -179,6 +180,7 @@
 			    sortorder: "${sortorder}",
 			    </#if>
 			    multiselect: ${multiselect?string("true","false")},
+			    shrinkToFit: ${shrinkToFit?string("true","false")},
 			    //width: ${width},
 			    height: ${height},
 			    shrinkToFit: true,

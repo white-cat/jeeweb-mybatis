@@ -8,6 +8,20 @@
 <!--CORE JAVASCRIPT-->
 <script src="${staticPath}/uadmin/js/main.js"></script>
 <script>
+
+//微信账号切换
+$(document).ready(function(){
+    $('#mpListUl li').live('click',function(){
+        var accountId=$(this).attr("data-id");
+        $.post("${adminPath}/weixin/mp/account/"+accountId+"/change",function(data,status){
+            if(data.ret==0){
+                window.location.reload();
+            }else{
+                alert(data.msg);
+            }
+        });
+    });
+});
 $(document).ready(function(){
 	var list_theme = $('.dropdown-theme-setting > li > select#list_theme');
     list_theme.on('change', function(){

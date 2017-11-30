@@ -78,6 +78,16 @@ public class EditorTag extends TextareaTag {
 		if (editorType.equals("markdown")) {
 			writeOptionalAttribute(tagWriter, "data-provide", "markdown");
 		}
+		if (editorType.equals("ueditor")){
+			//这里需要判断style是否为空
+			String style=getCssStyle();
+			if (StringUtils.isEmpty(style)) {
+				style = "width:" + editorWidth + ";height:" + getEditorHeight();
+			}else{
+				style+=";width:" + editorWidth + ";height:" + getEditorHeight();
+			}
+			writeOptionalAttribute(tagWriter, "style",style);
+		}
 		writeOptionalAttribute(tagWriter, ROWS_ATTRIBUTE, getRows());
 		writeOptionalAttribute(tagWriter, COLS_ATTRIBUTE, getCols());
 		writeOptionalAttribute(tagWriter, ONSELECT_ATTRIBUTE, getOnselect());

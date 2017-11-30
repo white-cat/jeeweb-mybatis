@@ -61,7 +61,7 @@ public class AttachmentController extends BaseController {
 	 * @param response
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "ajaxList", method = RequestMethod.GET)
+	@RequestMapping(value = "ajaxList", method = {RequestMethod.GET,RequestMethod.POST})
 	private void ajaxList(Queryable queryable, PropertyPreFilterable propertyPreFilterable, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		propertyPreFilterable.addQueryProperty("id");

@@ -3,14 +3,17 @@ package cn.jeeweb.core.utils.upload;
 import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.aspectj.util.FileUtil;
 import org.springframework.web.multipart.MultipartFile;
 import cn.jeeweb.core.utils.StringUtils;
 import cn.jeeweb.core.utils.upload.exception.FileNameLengthLimitExceededException;
 import cn.jeeweb.core.utils.upload.exception.InvalidExtensionException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.Date;
 
 public class FileUploadUtils {
@@ -255,5 +258,98 @@ public class FileUploadUtils {
 		if (desc.exists()) {
 			desc.delete();
 		}
+	}
+
+
+
+
+	/**
+	 * 以默认配置进行文件上传
+	 *
+	 * @param request          当前请求
+	 * @param remoteUrl             上传的文件
+	 *                         添加出错信息
+	 * @param allowedExtension 允许上传的文件类型
+	 * @return
+	 * @throws IOException
+	 * @throws FileNameLengthLimitExceededException
+	 * @throws InvalidExtensionException
+	 * @throws FileSizeLimitExceededException
+	 */
+	public static String remote(HttpServletRequest request,String baseDir,String remoteUrl, String[] allowedExtension,long maxSize)
+			throws FileSizeLimitExceededException, InvalidExtensionException, FileNameLengthLimitExceededException,
+			IOException {
+		return remote(request, baseDir, remoteUrl, allowedExtension, maxSize, true);
+	}
+
+	/**
+	 * 文件上传
+	 *
+	 * @param request                   当前请求 从请求中提取 应用上下文根
+	 * @param baseDir                   相对应用的基目录
+	 * @param remoteUrl                      上传的文件
+	 * @param allowedExtension          允许的文件类型 null 表示允许所有
+	 * @param maxSize                   最大上传的大小 -1 表示不限制
+	 * @param needDatePathAndRandomName 是否需要日期目录和随机文件名前缀
+	 * @return 返回上传成功的文件名
+	 * @throws InvalidExtensionException            如果MIME类型不允许
+	 * @throws FileSizeLimitExceededException       如果超出最大大小
+	 * @throws FileNameLengthLimitExceededException 文件名太长
+	 * @throws IOException                          比如读写文件出错时
+	 */
+	public static String remote(HttpServletRequest request, String baseDir,String remoteUrl,
+						 String[] allowedExtension, long maxSize, boolean needDatePathAndRandomName)
+			throws InvalidExtensionException, FileSizeLimitExceededException, IOException,
+			FileNameLengthLimitExceededException {
+		URL url = new URL(remoteUrl);
+		assertAllowed(remoteUrl, allowedExtension, maxSize);
+		String filename = extractByFilename(remoteUrl,baseDir, needDatePathAndRandomName);
+		FileUtil.copyStream(url.openStream(),new FileOutputStream(filename));
+		return filename;
+	}
+
+	/**
+	 * 是否允许文件上传
+	 *
+	 * @param remoteUrl             上传的文件
+	 * @param allowedExtension 文件类型 null 表示允许所有
+	 * @param maxSize          最大大小 字节为单位 -1表示不限制
+	 * @return
+	 * @throws InvalidExtensionException      如果MIME类型不允许
+	 * @throws FileSizeLimitExceededException 如果超出最大大小
+	 */
+	public static void assertAllowed(String remoteUrl, String[] allowedExtension, long maxSize)
+			throws InvalidExtensionException, FileSizeLimitExceededException {
+
+		String extension = FilenameUtils.getExtension(remoteUrl);
+		if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension)) {
+			if (allowedExtension == IMAGE_EXTENSION) {
+				throw new InvalidExtensionException.InvalidImageExtensionException(allowedExtension, extension,
+						remoteUrl);
+			} else if (allowedExtension == FLASH_EXTENSION) {
+				throw new InvalidExtensionException.InvalidFlashExtensionException(allowedExtension, extension,
+						remoteUrl);
+			} else if (allowedExtension == MEDIA_EXTENSION) {
+				throw new InvalidExtensionException.InvalidMediaExtensionException(allowedExtension, extension,
+						remoteUrl);
+			} else {
+				throw new InvalidExtensionException(allowedExtension, extension, remoteUrl);
+			}
+		}
+	}
+	public static String extractByFilename(String remoteUrl,String baseDir, boolean needDatePathAndRandomName)
+			throws UnsupportedEncodingException {
+		String filename = remoteUrl;
+		int slashIndex = filename.indexOf("/");
+		if (slashIndex >= 0) {
+			filename = filename.substring(slashIndex + 1);
+		}
+		if (needDatePathAndRandomName) {
+			filename = baseDir + "/" + datePath() + "/" + System.currentTimeMillis() + "."
+					+ StringUtils.getExtensionName(filename);
+		} else {
+			filename = baseDir + "/" + filename;
+		}
+		return filename;
 	}
 }

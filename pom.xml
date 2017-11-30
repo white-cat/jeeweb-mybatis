@@ -37,7 +37,7 @@
 		<jackson.version>2.2.3</jackson.version>
 		<jaxb.version>2.0.1</jaxb.version>
 		<fastjson-lib.version>1.1.37</fastjson-lib.version>
-		<httpclient.version>4.2</httpclient.version>
+		<httpclient.version>4.4.1</httpclient.version>
 		<commons.httpclient.version>3.1</commons.httpclient.version>
 		<gson.version>2.6.2</gson.version>
 		<mail.version>1.5.5</mail.version>
@@ -183,13 +183,6 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-web</artifactId>
-			<version>${shiro.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
@@ -267,12 +260,16 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<!-- codemodel -->
 		<dependency>
@@ -460,6 +457,12 @@
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
 			<version>${oracle.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>weixin-java-mp</artifactId>
+			<version>2.8.0</version>
 		</dependency>-->
 
 	</dependencies>
@@ -471,52 +474,14 @@
 			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>apache-repo</id>
-			<name>apache Repository</name>
-			<url>https://repository.apache.org/content/groups/public/</url>
+			<id>atlassian</id>
+			<name>atlassian</name>
+			<url>https://maven.atlassian.com/3rdparty/</url>
 		</repository>
-		<repository>
-			<id>java-repo</id>
-			<name>java Repository</name>
-			<url>http://download.java.net/maven/2/</url>
-		</repository>
-		<repository>
-			<id>springsource-repo</id>
-			<name>SpringSource Repository</name>
-			<url>http://repo.spring.io/release/</url>
-		</repository>
-		<repository>
-			<id>springsource-repo-snapshot</id>
-			<name>SpringSource Repository</name>
-			<url>http://repo.spring.io/snapshot/</url>
-		</repository>
-		<repository>
-			<id>cloudhopper</id>
-			<name>Repository for Cloudhopper</name>
-			<url>http://maven.cloudhopper.com/repos/third-party/</url>
-		</repository>
-		<repository>
-			<id>jboss-repo-releases</id>
-			<name>Jboss Repository</name>
-			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
-		</repository>
-		<repository>
-			<id>central</id>
-			<name>Maven Repository Switchboard</name>
-			<url>http://repo.maven.apache.org/maven2</url>
-		</repository>
-		<repository>
-			<id>maven-repo1</id>
-			<name>maven-repo1</name>
-			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-		<repository>
-			<id>sourceforge-releases</id>
-			<name>Sourceforge Releases</name>
-			<url>https://oss.sonatype.org/content/repositories/sourceforge-releases</url>
-		</repository>
+
 	</repositories>
 	<build>
+		
 		<!--解决不联网资源文件不能解析的问题-->
 		<resources>
 			<resource>

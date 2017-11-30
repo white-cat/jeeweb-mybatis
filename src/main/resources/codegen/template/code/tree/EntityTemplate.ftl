@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableField;
-
+import com.baomidou.mybatisplus.enums.FieldFill;
 <#list importTypes as importType>
 import ${importType};
 </#list>
@@ -24,9 +24,9 @@ import ${importType};
 public class ${entityName?cap_first} extends TreeEntity<${entityName?cap_first}> {
 	
 	<#list attributeInfos as attributeInfo>
-    /**${attributeInfo.remarks}*/
     <#if attributeInfo.name!='id'&&attributeInfo.name!='name'&& attributeInfo.name!='parentId'&& attributeInfo.name!='parentIds'>
-    @TableField(value = "${attributeInfo.dbName}"<#if !attributeInfo.isBaseType>,el="${attributeInfo.name}.id"</#if>)
+    /**${attributeInfo.remarks}*/
+	@TableField(value = "${attributeInfo.dbName}"<#if !attributeInfo.isBaseType>,el="${attributeInfo.name}.id"</#if><#if attributeInfo.name??&&(attributeInfo.name='createBy'||attributeInfo.name='createDate')>,fill = FieldFill.INSERT</#if><#if attributeInfo.name??&&(attributeInfo.name='updateBy'||attributeInfo.name='updateDate')>,fill = FieldFill.UPDATE</#if>)
 	private <#if attributeInfo.type=='this'>${entityName?cap_first}<#else>${attributeInfo.type}</#if> ${attributeInfo.name};
 	</#if>
 	</#list>

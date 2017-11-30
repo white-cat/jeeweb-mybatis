@@ -128,4 +128,10 @@
 		<link type="text/css" rel="stylesheet" href="${staticPath}/vendors/bootstrap-treeview/bootstrap-treeview.css"/>
     ]]>   
     </css>
+    <css name="bootstrap-colorpicker">
+        <![CDATA[
+		<!-- bootstrap-colorpicker -->
+		<link href="${staticPath}/vendors/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    ]]>
+    </css>
 </html-component>  

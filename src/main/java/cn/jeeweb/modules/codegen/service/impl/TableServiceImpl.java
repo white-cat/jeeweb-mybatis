@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.xmlbeans.impl.tool.CodeGenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +72,12 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 	@Override
 	public boolean insert(Table table) {
 		table.setSyncDatabase(Boolean.FALSE);
+		String dbType= CodeGenUtils.getDbType();
+		if (dbType.equals("oracle")){
+			table.setTableName(table.getTableName().toUpperCase());
+		}else{
+			table.setTableName(table.getTableName().toLowerCase());
+		}
 		// 保存主表
 		super.insert(table);
 		// 字段
@@ -81,6 +88,11 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 			Column column = columnList.get(i);
 			column.setId("");
 			column.setSort(i);
+			if (dbType.equals("oracle")){
+				column.setTypeName(column.getTypeName().toUpperCase());
+			}else{
+				column.setTypeName(column.getTypeName().toLowerCase());
+			}
 			column.setTable(table);
 			columnService.insert(column);
 		}
@@ -94,7 +106,12 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 		// 字段
 		String columnListStr = StringEscapeUtils.unescapeHtml4(ServletUtils.getRequest().getParameter("columnList"));
 		List<Column> columnList = JSONObject.parseArray(columnListStr, Column.class);
-
+		String dbType= CodeGenUtils.getDbType();
+		if (dbType.equals("oracle")){
+			table.setTableName(table.getTableName().toUpperCase());
+		}else{
+			table.setTableName(table.getTableName().toLowerCase());
+		}
 		// 更新主表
 		super.insertOrUpdate(table);
 		columnList = JSONObject.parseArray(columnListStr, Column.class);
@@ -103,6 +120,11 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 		// 保存或更新数据
 		for (Column column : columnList) {
 			column.setSort(sort);
+			if (dbType.equals("oracle")){
+				column.setTypeName(column.getTypeName().toUpperCase());
+			}else{
+				column.setTypeName(column.getTypeName().toLowerCase());
+			}
 			// 保存字段列表
 			if (StringUtils.isEmpty(column.getId()) || column.getId().contains("templateid")) {
 				// 保存字段列表
@@ -230,7 +252,15 @@ public class TableServiceImpl extends CommonServiceImpl<TableMapper, Table> impl
 	@Override
 	public void importDatabase(Table table) {
 		String tableName = table.getTableName();
-		table.setTitle(tableName);
+		String title=tableName;
+		if (tableName.contains(":")){
+			String[] tableInfos=tableName.split(":");
+			tableName=tableInfos[0];
+			title=tableInfos[1];
+		}
+		table.setTitle(title);
+		table.setRemarks(title);
+		table.setTableName(tableName);
 		table.setSyncDatabase(Boolean.TRUE);
 		// 保存主表
 		super.insert(table);

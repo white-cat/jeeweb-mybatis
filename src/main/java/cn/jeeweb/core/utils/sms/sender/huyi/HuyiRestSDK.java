@@ -43,7 +43,7 @@ public class HuyiRestSDK {
 	 */
 	public void init(String serverUrl) {
 		if (StringUtils.isEmpty(serverUrl)) {
-			logger.fatal("初始化异常:serverUrl为空");
+			//logger.fatal("初始化异常:serverUrl为空");
 			throw new IllegalArgumentException("必选参数:" + (StringUtils.isEmpty(serverUrl) ? " 服务器地址 " : "") + "为空");
 		}
 		SERVER_URL = serverUrl;
@@ -57,7 +57,7 @@ public class HuyiRestSDK {
 	 */
 	public void setAccount(String accountName, String accountPassword) {
 		if (StringUtils.isEmpty(accountName) || StringUtils.isEmpty(accountPassword)) {
-			logger.fatal("初始化异常:accountName或accountPassword为空");
+			//logger.fatal("初始化异常:accountName或accountPassword为空");
 			throw new IllegalArgumentException("必选参数:" + (StringUtils.isEmpty(accountName) ? " 帐号" : "")
 					+ (StringUtils.isEmpty(accountPassword) ? " 密码 " : "") + "为空");
 		}

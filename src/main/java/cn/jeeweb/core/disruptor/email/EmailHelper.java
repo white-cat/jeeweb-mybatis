@@ -131,11 +131,5 @@ public class EmailHelper {
 	public void setEmailDao(EmailDao emailDao) {
 		this.emailDao = emailDao;
 	}
-
-	public static void main(String[] args) {
-		EmailHelper emailHelper = new EmailHelper();
-		emailHelper.start();
-		emailHelper.sendAsyncEmail("502079461@qq.com","", "我测试的");
-	}
-
+	
 }

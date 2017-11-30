@@ -25,6 +25,9 @@
 
 	<!-- 扫描注解Bean -->
 	<context:component-scan base-package="cn.jeeweb.modules.**.service" />
+
+	<!--微信handler-->
+	<context:component-scan base-package="cn.jeeweb.modules.weixin.mp.front.handler" />
 	
 	<context:component-scan base-package="cn.jeeweb.core.interceptor">
 		<context:exclude-filter type="annotation"

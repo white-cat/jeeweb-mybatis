@@ -121,6 +121,11 @@ public class HtmlComponentManager {
 	}
 
 	public String getFragmentComponent(String name, Map<String, Object> dataMap) {
+		try {
+			init();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return getComponent(COMPONENT_TYPE_FRAGMENT, name, dataMap);
 	}
 

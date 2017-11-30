@@ -2,6 +2,7 @@ package cn.jeeweb.modules.task.entity;
 
 import java.util.Date;
 
+import cn.jeeweb.modules.sys.entity.User;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -36,8 +37,8 @@ public class ScheduleJob extends AbstractEntity<String> {
 	@TableField(value = "description")
 	private String description;
 	/** 更新者 */
-	@TableField(value = "update_by")
-	private String updateBy;
+	@TableField(value = "update_by",el="updateBy.id")
+	private User updateBy;
 	/** 任务执行时调用哪个类的方法 包名+类名 */
 	@TableField(value = "bean_class")
 	private String beanClass;
@@ -54,8 +55,8 @@ public class ScheduleJob extends AbstractEntity<String> {
 	@TableField(value = "update_date")
 	private Date updateDate;
 	/** 创建者 */
-	@TableField(value = "create_by")
-	private String createBy;
+	@TableField(value = "create_by",el="createBy.id")
+	private User createBy;
 	/** Spring bean */
 	@TableField(value = "spring_bean")
 	private String springBean;
@@ -158,19 +159,19 @@ public class ScheduleJob extends AbstractEntity<String> {
 		this.id = id;
 	}
 
-	public String getUpdateBy() {
+	public User getUpdateBy() {
 		return updateBy;
 	}
 
-	public void setUpdateBy(String updateBy) {
+	public void setUpdateBy(User updateBy) {
 		this.updateBy = updateBy;
 	}
 
-	public String getCreateBy() {
+	public User getCreateBy() {
 		return createBy;
 	}
 
-	public void setCreateBy(String createBy) {
+	public void setCreateBy(User createBy) {
 		this.createBy = createBy;
 	}
 
@@ -195,7 +196,7 @@ public class ScheduleJob extends AbstractEntity<String> {
 
 	/**
 	 * 获取 createDate
-	 * 
+	 *
 	 * @return: Date 创建时间
 	 */
 	public Date getCreateDate() {
@@ -204,7 +205,7 @@ public class ScheduleJob extends AbstractEntity<String> {
 
 	/**
 	 * 设置 createDate
-	 * 
+	 *
 	 * @param: createDate
 	 *             创建时间
 	 */
@@ -252,7 +253,7 @@ public class ScheduleJob extends AbstractEntity<String> {
 
 	/**
 	 * 获取 updateDate
-	 * 
+	 *
 	 * @return: Date 更新时间
 	 */
 	public Date getUpdateDate() {
@@ -261,7 +262,7 @@ public class ScheduleJob extends AbstractEntity<String> {
 
 	/**
 	 * 设置 updateDate
-	 * 
+	 *
 	 * @param: updateDate
 	 *             更新时间
 	 */

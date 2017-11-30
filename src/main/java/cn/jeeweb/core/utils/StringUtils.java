@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import com.alibaba.fastjson.JSONObject;
 
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
+	private static final String CHARSET_NAME = "UTF-8";
 
 	// 首字母转小写
 	public static String toLowerCaseFirstOne(String s) {
@@ -296,4 +298,48 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 		return s;
 	}
 
+	/**
+	 * 转换为字节数组
+	 *
+	 * @param bytes
+	 * @return
+	 */
+	public static String toString(byte[] bytes){
+		try {
+			return new String(bytes, CHARSET_NAME);
+		} catch (UnsupportedEncodingException e) {
+			return EMPTY;
+		}
+	}
+
+	/**
+	 * 转换为字节数组
+	 * @param str
+	 * @return
+	 */
+	public static byte[] getBytes(String str){
+		if (str != null){
+			try {
+				return str.getBytes(CHARSET_NAME);
+			} catch (UnsupportedEncodingException e) {
+				return null;
+			}
+		}else{
+			return null;
+		}
+	}
+
+	public static <T> String toFormatterValue(List<T> datas, String label, String value) {
+		String formaterValues = "";
+		for (Object data : datas) {
+			if (!StringUtils.isEmpty(formaterValues)) {
+				formaterValues+=";";
+			}
+			String labelValue = Reflections.getFieldValue(data, label) + "";
+			String valueValue = Reflections.getFieldValue(data, value) + "";
+			String formaterValue = valueValue + ":" + labelValue;
+			formaterValues+=formaterValue;
+		}
+		return formaterValues;
+	}
 }

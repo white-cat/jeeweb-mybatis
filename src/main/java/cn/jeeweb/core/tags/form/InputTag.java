@@ -1,6 +1,8 @@
 package cn.jeeweb.core.tags.form;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.servlet.jsp.JspException;
 import org.springframework.web.servlet.support.BindStatus;
@@ -55,10 +57,16 @@ public class InputTag extends org.springframework.web.servlet.tags.form.InputTag
 				if (value.endsWith(".0")) {
 					value = value.toString().substring(0, value.toString().indexOf("."));
 				}
-				Date date = DateUtils.parseDate(value);
+				Date date;
+				if (value.indexOf("CST")>0) {
+					SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
+					date=sdf.parse(value);
+				}else{
+					date = DateUtils.parseDate(value);
+				}
 				value = DateUtils.formatDate(date,datefmt);
 			} catch (Exception e) {
-				 
+
 			}
 			tagWriter.writeAttribute("value", value);
 		}

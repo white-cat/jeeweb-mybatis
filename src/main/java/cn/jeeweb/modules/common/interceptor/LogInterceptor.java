@@ -57,7 +57,7 @@ public class LogInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		if (modelAndView != null) {
-			logger.info("ViewName: " + modelAndView.getViewName());
+			//logger.info("ViewName: " + modelAndView.getViewName());
 		}
 	}
 

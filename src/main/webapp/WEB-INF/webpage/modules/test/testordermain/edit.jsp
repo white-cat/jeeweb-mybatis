@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>订单主表</title>
+    <title>测试主表</title>
     <meta name="decorator" content="form"/>
     <html:css name="bootstrap-fileinput" />
     <html:css name="simditor,jqgrid" />
@@ -48,26 +48,26 @@
 	<div class="row">
         <div class="tabs-container">
             <ul class="nav nav-tabs">
-            	<li class="active"><a data-toggle="tab" href="#tab_testOrderTicket" aria-expanded="true">机票信息</a></li>
-            	<li ><a data-toggle="tab" href="#tab_testOrderCustomer" aria-expanded="true">客户信息</a></li>
+            	<li class="active"><a data-toggle="tab" href="#tab_testOrderTicket" aria-expanded="true">订单票据</a></li>
+            	<li ><a data-toggle="tab" href="#tab_testOrderCustomer" aria-expanded="true">订单客户信息</a></li>
             </ul>
             <div class="tab-content">
                  <div id="tab_testOrderTicket" class="tab-pane active">
                     <div class="panel-body">
-                        <grid:grid id="testOrderTicket"  datas="${data.testOrderTicketList}"  gridShowType="form" pageable="false"  editable="true">
+                        <grid:grid id="testOrderTicket"  datas="${testOrderTicketList}"  gridShowType="form" pageable="false"  editable="true">
 							    <grid:column label="航班号"  name="fltno"  editable="true"        />
 							    <grid:column label="航班时间"  name="flytime"  editable="true"    edittype="date"       />
+							    <grid:column label="备注信息"  name="remarks"  editable="true"        />
 						</grid:grid>
 						
 					</div>
                 </div>
                  <div id="tab_testOrderCustomer" class="tab-pane ">
                     <div class="panel-body">
-                        <grid:grid id="testOrderCustomer"  datas="${data.testOrderCustomerList}"  gridShowType="form" pageable="false"  editable="true">
-							    <grid:column label="客户姓名"  name="name"  editable="true"       datatype="*"   />
-							    <grid:column label="性别"  name="sex"  editable="true"      edittype="select"  dict="sex"  datatype="*"   />
-							    <grid:column label="电话"  name="phone"  editable="true"       datatype="*"   />
-							    <grid:column label="备注信息"  name="remarks"  editable="true"        />
+                        <grid:grid id="testOrderCustomer"  datas="${testOrderCustomerList}"  gridShowType="form" pageable="false"  editable="true">
+							    <grid:column label="客户姓名"  name="name"  editable="true"        />
+							    <grid:column label="性别"  name="sex"  editable="true"      edittype="select"  dict="sex"   />
+							    <grid:column label="电话"  name="phone"  editable="true"       datatype="m"   />
 						</grid:grid>
 						
 					</div>

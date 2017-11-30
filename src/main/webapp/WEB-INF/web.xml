@@ -152,7 +152,7 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	<!-- 错误页面映射 -->
+	<!-- 错误页面映射
 	<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/webpage/error/404.jsp</location>
@@ -172,5 +172,5 @@
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/WEB-INF/webpage/error/error.jsp</location>
-	</error-page>
+	</error-page>-->
 </web-app>

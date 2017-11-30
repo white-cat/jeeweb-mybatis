@@ -112,7 +112,7 @@
 	</div>
     <!-- 全局js -->
     <html:js  name="jquery,bootstrap,jquery-ui,peity,iCheck,sweetalert,Validform,jqgrid"/>
-    <script src="${staticPath}/modules/codegen/js/table.data.js"></script>
+    <script src="${staticPath}/modules/codegen/js/table.${dbType}.data.js"></script>
     <script src="${staticPath}/modules/codegen/js/table.edit.js"></script>
     <script language="javascript" type="text/javascript"> 
 	    function resizeGrid(){

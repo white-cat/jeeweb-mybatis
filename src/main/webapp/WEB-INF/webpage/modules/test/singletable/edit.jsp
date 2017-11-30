@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>单表测试</title>
+    <title>测试单表</title>
     <meta name="decorator" content="form"/>
     <html:css name="bootstrap-fileinput" />
     <html:css name="simditor" />
@@ -19,28 +19,17 @@
 		              <label><font color="red">*</font>名称:</label>
 		            </td>
 					<td class="width-35">
-						<form:input path="name" htmlEscape="false" class="form-control"  datatype="*"    />
+						<form:input path="name" htmlEscape="false" class="form-control"      />
 						<label class="Validform_checktip"></label>
 					</td>
 					<td  class="width-15 active text-right">	
 		              <label><font color="red">*</font>时间:</label>
 		            </td>
 					<td class="width-35">
-						<form:input path="testdate" htmlEscape="false" class="form-control layer-date" placeholder="YYYY-MM-DD hh:mm:ss" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"       />
+						<form:input path="testdate" datefmt="yyyy-MM-dd" htmlEscape="false" class="form-control layer-date" placeholder="YYYY-MM-DD hh:mm:ss" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"       />
 						<label class="Validform_checktip"></label>
 					</td>
 				</tr>
-				<tr>
-					<td  class="width-15 active text-right">	
-		              <label>备注信息:</label>
-		            </td>
-					<td class="width-35">
-						<form:editor path="remarks" htmlEscape="false" class="form-control"      />
-						<label class="Validform_checktip"></label>
-					</td>
-					<td class="width-15 active text-right"></td>
-		   			<td class="width-35" ></td>
-		  		</tr>
 		      
 		   </tbody>
 		</table>   
