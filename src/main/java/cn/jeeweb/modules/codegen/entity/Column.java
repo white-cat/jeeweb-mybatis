@@ -177,7 +177,7 @@ public class Column extends DataEntity<String> implements java.io.Serializable {
 	}
 
 	public void setTypeName(String typeName) {
-		this.typeName = typeName;
+		this.typeName = typeName.toUpperCase();
 	}
 
 	public String getColumnSize() {
