@@ -11,8 +11,10 @@ import cn.jeeweb.core.common.service.ITreeCommonService;
 import cn.jeeweb.core.query.data.Queryable;
 import cn.jeeweb.core.query.parse.QueryToWrapper;
 import cn.jeeweb.core.utils.ObjectUtils;
+import org.springframework.stereotype.Service;
 
 @Transactional
+@Service
 public class TreeCommonServiceImpl<M extends BaseTreeMapper<T>, T extends Serializable & TreeNode<ID>, ID extends Serializable>
 		extends CommonServiceImpl<M, T> implements ITreeCommonService<T, ID> {
 
